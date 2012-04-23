@@ -1,4 +1,4 @@
-var simstore = Ext.define('app.store.SimulationStore', {
+Ext.define('app.store.SimulationStore', {
 	extend: 'Ext.data.Store',
 	requires: ['Ext.data.proxy.Rest'],
 	id: 'simulationList',

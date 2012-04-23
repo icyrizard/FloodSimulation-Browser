@@ -30,6 +30,7 @@ Ext.define("app.view.List",
 			},
 			{
 				xtype: 'list',
+				ui: 'round',
 				itemTpl: '<div>{name}</div>',
 				store: 'SimulationStore',
 				flex: 1

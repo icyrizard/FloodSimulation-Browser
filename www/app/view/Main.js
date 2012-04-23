@@ -7,19 +7,19 @@ Ext.define("app.view.Main", {
         layout: "hbox",
 
         fullscreen: true,
-                layout: "hbox",
-                
-                items: [
-                {
-                    xtype: 'listpanel',
-                    flex: 1
-                },
-               {       
-                    xtype: 'simulationpanel',
-                    flex: 2
-                },
+        layout: "hbox",
+        
+        items: [
+        {
+            xtype: 'listpanel',
+            flex: 1
+        },
+       {       
+            xtype: 'simulationpanel',
+            flex: 2
+        },
 
-                ]
+        ]
 
     }
 });

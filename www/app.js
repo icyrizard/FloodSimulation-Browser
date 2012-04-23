@@ -6,8 +6,8 @@ Ext.Loader.setPath({
 
 Ext.application({
     controllers: ["Main"],
-    models: ["SimulationModel"],
-    stores: ['SimulationStore'],
+    models: ["SimulationModel", 'SimulationDetails'],
+    stores: ['SimulationStore', 'ImagesStore'],
 
     name: 'app',
 
