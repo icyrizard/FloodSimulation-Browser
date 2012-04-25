@@ -30,8 +30,8 @@ Ext.define('app.view.Map', {
 		this.globalExtMap.setMapOptions(options);
 	},
 
-	createMarker: function(position){
-        var pos = new google.maps.LatLng(52.3700,4.89000);
+	createMarker: function(pos){
+        var pos = new google.maps.LatLng(52.3700, 4.89000);
         new google.maps.Marker({
             position: pos,
             icon: 'Google_Maps_Marker.png',
@@ -51,14 +51,14 @@ Ext.define('app.view.Map', {
 
 	createOverlayPolygon: function(corners){
 		var cornerBounds = [];
-		for (i in corners) {
-			console.log(corners[i][0], corners[i][1]);
-			cornerBounds.push(new google.maps.LatLng(corners[i][0], corners[i][1]));
-		}
+		console.log(corners);
+		console.log(corners[0].length);
+		for (var i = 0; i < corners[0].length - 1; i++) {
 
-		new google.maps.LatLng(corners[1][0],corners[1][1]),
-				new google.maps.LatLng(corners[2][0],corners[2][1]),
-				new google.maps.LatLng(corners[3][0],corners[3][1])
+			console.log("i: " + i + corners[0][i][0] + "-" + corners[0][i][1]);
+			cornerBounds.push(new google.maps.LatLng(corners[0][i][0], corners[0][i][1]));
+		}
+		console.log(cornerBounds);
 
 		var rectangle = new google.maps.Polygon({
 		    paths: cornerBounds,

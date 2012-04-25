@@ -11,7 +11,7 @@ Ext.define("app.view.List",
 		'Ext.data.Store', 'Ext.dataview.List', 'Ext.Map'
 	],
 
-	stores: ['SimulationStore'],
+	//stores: ['SimulationStore'],
 
 	config: {
 		layout: "vbox",
