@@ -7,15 +7,15 @@ Ext.Loader.setPath({
 Ext.application({
     controllers: ["Main"],
     models: ["SimulationModel", "SimulationDetails"],
-    stores: ['SimulationStore', 'SimulationDetailsStore'],
+    stores: ['SimulationStore', 'SimulationDetailsStore', 'SimulationsSummary'],
 
     name: 'app',
 
     requires: [
-        'Ext.MessageBox'
+        'Ext.MessageBox', 'app.CustomProxy'
     ],
 
-    views: ['Main', "Home", "Simulation", "List", 'Map'],
+    views: ['Main', "Home", "Simulation", "List", 'Map', 'StepsOverlay'],
 
     icon: {
         57: 'resources/icons/Icon.png',

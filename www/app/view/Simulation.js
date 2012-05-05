@@ -1,27 +1,46 @@
 Ext.define('app.view.Simulation', {
-    extend: 'Ext.Container',
+    extend: 'Ext.navigation.View',
     xtype: 'simulationpanel',
 
     config: {
         title: "Map",
-        layout: "vbox",
+        layout: "card",
         items: [
-            {
-                dock: "top",
-                xtype: 'toolbar',
-
-                items : [
-                    {
-                        text: "button",
-                        ui: "square"
-                    }   
-                ],
-            },
             {
                 xtype: 'SimulationMap',      
                 flex: 2,
-            }
-        ],
+            },
+            {
+                xtype: 'panel',
+                id: 'overlay',
+                floating: true,
+                hidden: true,
+                width: 300,
+                height: 80,
+                scroll: false,
+                items: [{
+                    xtype: 'button',
+                    id: 'closebutton',
+                    iconCls: 'delete',
+                    iconMask: true,
+                    width: 45,
+                    
+                    bottom: -30,
+                    right: -20,
+                },
+                {
+                    xtype: 'segmentedbutton',
+                    items: [
+                    {
+                        text: 'back'
+                    },
+                    {
+                        text: 'forward'
+                    }
+
+                    ]
+                }],
+            }],
     },
 });
 
