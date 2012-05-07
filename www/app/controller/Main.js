@@ -13,7 +13,7 @@ Ext.define('app.controller.Main', {
         control: {
             'listpanel #cities': {
                 itemtap: 'showOverlay',
-                tap: 'closeoverlay'
+                tap: 'closeoverlay',
             },
 
             'sliderfield': {
@@ -24,27 +24,51 @@ Ext.define('app.controller.Main', {
                 itemtap: 'simulation',
             },
 
+            '#ext-button-1': {
+                tap: 'callRemoveImages'
+            },
+
             '#mapa': {
                 maprender: 'setMap'
             },
 
             '#closebutton': {
                 tap: 'closeoverlay'
+            },
+
+            '#backwards': {
+                tap: 'prevImage'
+            },
+
+            '#forward': {
+                tap: 'nextImage'
+            },
+
+            '#overlay': {
+                hide: 'callRemoveImages',
             }
+
         }
     },
 
-    callRemoveImages: function(){
-
+    callRemoveImages: function() {
+        //console.log('hide removeimages');
+        //this.getOverlay().hide();
     },
 
-    callNextImage: function(){
+    prevImage: function(){
+        this.getMapView().prevImage();
+    },
+
+    nextImage: function(){
         this.getMapView().nextImage();
     },
 
     closeoverlay: function() {
-        console.log(this.getOverlay());
-        this.getOverlay().hide();
+        // console.log('call removeimages');
+        // console.log(this.getOverlay());
+        // this.getMapView().removeImages();
+        // this.getOverlay().hide();
     },
 
     setMap: function(extmap, map){

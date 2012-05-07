@@ -18,29 +18,43 @@ Ext.define('app.view.Simulation', {
                 width: 300,
                 height: 80,
                 scroll: false,
-                items: [{
+                items: [
+                {
                     xtype: 'button',
                     id: 'closebutton',
                     iconCls: 'delete',
                     iconMask: true,
-                    width: 45,
-                    
+                    width: 45,                    
                     bottom: -30,
                     right: -20,
                 },
                 {
-                    xtype: 'segmentedbutton',
-                    items: [
+                    layout: 'vbox',
+                    top: 15,
+                    align: 'center',
+                    items : [
                     {
-                        text: 'back'
+                        xtype: "button",
+                        id: 'backwards',
+                        width: 45,
+                        iconCls: 'arrow_left',
+                        floating: 'right',
+                        iconMask: true,
+                        left: 90,
+                        align: 'center',
                     },
                     {
-                        text: 'forward'
-                    }
-
-                    ]
+                        xtype: "button",
+                        id: 'forward',
+                        width: 45,
+                        floating: 'left',
+                        iconCls: 'arrow_right',
+                        align: 'center',
+                        left: 155,
+                        iconMask: true,
+                    }]
                 }],
-            }],
-    },
+            }]
+        },
 });
 

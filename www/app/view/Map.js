@@ -18,7 +18,7 @@ Ext.define('app.view.Map', {
 			{
 				this.overlayImages = [];
 				this.Images = [];
-				this.imageIndex = null;
+				this.imageIndex = 0;
 				this.imageBounds = null;
 			}
 		}
@@ -62,6 +62,7 @@ Ext.define('app.view.Map', {
 	// 'http://sangkil.science.uva.nl:8003/drfsm/199419691/visualization/level/map/600.png'
 	// 'http://sangkil.science.uva.nl:8003/drfsm/207/visualization/level/map/300.png' ;
 	createOverlayImage: function(bounds, area_id, timesteps) {
+		//console.log('createOverlayImage');
 		this.imageIndex = 0;
 		this.imageBounds = new google.maps.LatLngBounds(
 				new google.maps.LatLng(bounds[2],bounds[3]),
@@ -69,9 +70,10 @@ Ext.define('app.view.Map', {
 		
 		this.bounds = bounds;
 		// delete all other images
-		if (this.overlayImages.length > 0)
-			for (i in this.overlayImages)
-				this.overlayImages[i].setMap(null);
+		if (this.overlayImages.length > 1)
+		{
+			this.removeImages();
+		}
 		//var image = 'http://sangkil.science.uva.nl:8003/lsm/' + area_id +'/visualization/level/map/400.png';	
 
 		for (i in timesteps)
@@ -88,16 +90,50 @@ Ext.define('app.view.Map', {
 
 	nextImage: function()
 	{
-		this.imageIndex += 1;
-		this.overlayImages[this.imageIndex - 1].setMap(null);
-		var overlay = new google.maps.GroundOverlay(this.Images[this.imageIndex], this.imageBounds, {map: this.globalMap});
-		this.overlayImages.push(overlay);
+		var lastImagesIndex = this.imageIndex;
+		this.imageIndex += this.imageIndex <= this.Images.length - 2 ? 1 : 0;
+		console.log(this.imageIndex);
+		if (this.imageIndex != lastImagesIndex)
+		{
+			if (this.imageIndex >= this.overlayImages.length || this.overlayImages.length == 0)
+			{
+				var overlay = new google.maps.GroundOverlay(this.Images[this.imageIndex], this.imageBounds, {map: this.globalMap});
+				this.overlayImages.push(overlay);
+				console.log(this.overlayImages);
+				console.log("pushed "+ overlay);
+			} else {
+				console.log(this.overlayImages);
+				this.overlayImages[this.imageIndex].setMap(this.globalMap);
+			}
+
+			this.overlayImages[this.imageIndex - 1].setMap(null);
+		}
+	},
+
+	prevImage: function()
+	{
+		console.log(this.overlayImages);
+		console.log(this.overlayImages[this.imageIndex]);
+		console.log(this.imageIndex);
+		this.overlayImages[this.imageIndex].setMap(null);
+		console.log('removed');
+		this.imageIndex -= this.imageIndex > 0 ? 1 : 0;
+
+		if (this.imageIndex >= 0)
+		{
+			this.overlayImages[this.imageIndex].setMap(this.globalMap);
+			console.log(this.overlayImages[this.imageIndex]);
+		}
 	},
 
 	removeImages: function()
 	{
+		console.log('removedImages');
 		for (i in this.overlayImages)
 			this.overlayImages[i].setMap(null);
+		this.imageIndex = 0;
+		this.overlayImages = [];
+		this.Images = [];
 	},
 
 	createOverlayPolygon: function(corners){
@@ -105,7 +141,6 @@ Ext.define('app.view.Map', {
 		for (var i = 0; i < corners[0].length - 1; i++) {
 			cornerBounds.push(new google.maps.LatLng(corners[0][i][0], corners[0][i][1]));
 		}
-		console.log(cornerBounds);
 
 		var rectangle = new google.maps.Polygon({
 		    paths: cornerBounds,
