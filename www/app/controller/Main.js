@@ -52,8 +52,8 @@ Ext.define('app.controller.Main', {
     },
 
     callRemoveImages: function() {
-        //console.log('hide removeimages');
-        //this.getOverlay().hide();
+        console.log('hide removeimages');
+        this.getOverlay().hide();
     },
 
     prevImage: function(){
@@ -65,10 +65,10 @@ Ext.define('app.controller.Main', {
     },
 
     closeoverlay: function() {
-        // console.log('call removeimages');
-        // console.log(this.getOverlay());
-        // this.getMapView().removeImages();
-        // this.getOverlay().hide();
+        console.log('call removeimages');
+        console.log(this.getOverlay());
+        this.getMapView().removeImages();
+        this.getOverlay().hide();
     },
 
     setMap: function(extmap, map){
