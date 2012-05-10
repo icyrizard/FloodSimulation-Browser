@@ -16,10 +16,6 @@ Ext.define('app.controller.Main', {
                 tap: 'closeoverlay',
             },
 
-            'sliderfield': {
-                change: 'callNextImage'
-            },
-
             'listpanel #summary': {
                 itemtap: 'simulation',
             },
@@ -52,8 +48,10 @@ Ext.define('app.controller.Main', {
     },
 
     callRemoveImages: function() {
+        this.getMapView().removeImages();
         console.log('hide removeimages');
         this.getOverlay().hide();
+
     },
 
     prevImage: function(){
@@ -65,6 +63,8 @@ Ext.define('app.controller.Main', {
     },
 
     closeoverlay: function() {
+        //console.log(this.getMapView().getCurrentImage());
+        this.setThumb();
         console.log('call removeimages');
         console.log(this.getOverlay());
         this.getMapView().removeImages();
@@ -72,33 +72,48 @@ Ext.define('app.controller.Main', {
     },
 
     setMap: function(extmap, map){
+        this.test_id = null;
         this.globalMap = map;
         this.getMapView().setGlobalMap(extmap, map);
         this.selectedIndex = [];
     },
 
     simulation: function(list, index, element, record) {
+        var cb = function(result){
+            if (result['timesteps'].length > 0)
+                map.createOverlayImage(bounds, test_id, result['timesteps']);
+        }
+        console.log(record);
         var store = Ext.getStore('SimulationDetailsStore');
         var test_id = record.get('test_id');
+        console.log(test_id)
+        this.test_id = test_id;
+        console.log(this.this_id);
         var map = this.getMapView();
         var bounds;
+        console.log(store);
 
         store.each(function(r){
             bounds = r.get('visbounds');
         });
-       
-        var request = Ext.Ajax.request({
-            method: 'GET',
-            url: 'http://sangkil.science.uva.nl:8003/drfsm/'+ test_id +'/info.json',
-    
-            success: function(response, opts){
-                var result = Ext.decode(response.responseText);
-                if (result['timesteps'].length > 0)
-                    map.createOverlayImage(bounds, test_id, result['timesteps']);
-            },
-        });
 
-        console.log(this.getOverlay());
+        console.log(bounds);
+        this.requestInfo(test_id, cb);
+        // var request = Ext.Ajax.request({
+        //     method: 'GET',
+        //     url: 'http://sangkil.science.uva.nl:8003/drfsm/'+ test_id +'/info.json',
+    
+        //     success: function(response, opts){
+        //         var result = Ext.decode(response.responseText);
+        //         if (result['timesteps'].length > 0)
+        //             map.createOverlayImage(bounds, test_id, result['timesteps']);
+        //     },
+
+        //     failure: function(){
+        //          console.log('failed to create images');
+        //     }
+        // });
+
         this.getOverlay().showBy(element);
     },
 
@@ -122,23 +137,26 @@ Ext.define('app.controller.Main', {
                 direction: 'left',
                 duration: 200
             },
-
             id: 'summary',
             xtype: 'list',
             store: 'SimulationsSummary',
-            itemTpl: '<div>simulation {submitted} - {test_id}</div>',
+            itemTpl: '<div><img class="flood_thumb" id="{test_id}_flood"' +
+                    'style="width: 180px; height: 180px;" alt="noimage.png" src=""/> ' + 
+                    '<div style:"clear:both"></div><b>{test_id}</b>: {submitted}</div>',
         });
+        this.setThumb(center);
+        var store = Ext.getStore('SimulationDetailsStore');
+        store.setUrl(area_id);
+        store.load();
 
         if (selected == false)
         {
+            
             this.selectedIndex.push(index);
             var dikes = null;
             var bounds = record.get('visbounds');
             var corners = record.get('corners');
 
-            var store = Ext.getStore('SimulationDetailsStore');
-            store.setUrl(area_id);
-            store.load();
 
             store.each(function(r) {
                 dikes = r.get('dikes');
@@ -147,10 +165,53 @@ Ext.define('app.controller.Main', {
             if (dikes.length != 0)
                 this.getMapView().createOverlayPolygon(dikes);
             this.getMapView().createMarker(center);
-            this.getMapView().createOverlayImage(bounds);
+            //this.getImages();
         }   
         this.getMapView().setCenterMap(center);
     },
+
+    setThumb: function(center){
+        if (typeof this.test_id == undefined)
+            return;
+        var me = this;
+        var summary_store = Ext.getStore('SimulationsSummary');
+        summary_store.each(function(record){
+            var test_id = record.get('test_id');
+            var setImages = function(result){
+                console.log(result);
+                //var mapImage ='http://maps.googleapis.com/maps/api/staticmap?center='+ center[0] +','+ center[1] + '&zoom=12&size=512x512&maptype=roadmap&sensor=false';
+                //document.getElementById(test_id + "_thumb").src = mapImage;//me.getMapView().getFloodImage(test_id, result['timesteps'][result['timesteps'].length - 1]); 
+                var image = me.getMapView().getFloodImage(test_id, result['timesteps'][result['timesteps'].length - 1]) || 'noimage.png';
+                console.log(image);
+                document.getElementById(test_id + "_flood").src = image;
+            }
+            console.log(record.get('test_id'));
+            // console.log(this.requestInfo);
+            me.requestInfo(record.get('test_id'), setImages);
+            
+        });
+
+        // if (typeof this.test_id != undefined) {
+        //    document.getElementById(this.test_id + "_thumb").src = this.getMapView().getCurrentImage();
+        // }
+    },
+
+    requestInfo: function(test_id, callback){
+            var request = Ext.Ajax.request({
+            method: 'GET',
+            url: 'http://sangkil.science.uva.nl:8003/drfsm/'+ test_id +'/info.json',
+    
+            success: function(response, opts){
+                var result = Ext.decode(response.responseText);
+                callback(result);
+            },
+
+            failure: function(){
+                 console.log('failed to create images');
+            }
+        });
+
+    }
 });
 
 

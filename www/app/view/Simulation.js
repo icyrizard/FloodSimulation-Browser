@@ -25,8 +25,8 @@ Ext.define('app.view.Simulation', {
                     iconCls: 'delete',
                     iconMask: true,
                     width: 45,                    
-                    bottom: -30,
-                    right: -20,
+                    top: -30,
+                    left: -20,
                 },
                 {
                     layout: 'vbox',

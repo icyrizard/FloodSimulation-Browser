@@ -14,12 +14,11 @@ Ext.define("app.view.Main", {
             xtype: 'listpanel',
             flex: 1
         },
-       {       
+        {  
+            title: "map",     
             xtype: 'simulationpanel',
             flex: 2
         },
-
         ]
-
     }
 });
