@@ -5,6 +5,7 @@ Ext.define('app.view.Map', {
 
 	config: {
 		useLoadMask : true,
+
 		mapOptions : {
 			zoom : 12,
 			mapTypeId : google.maps.MapTypeId.ROADMAP,

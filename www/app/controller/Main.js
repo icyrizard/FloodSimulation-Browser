@@ -23,7 +23,7 @@ Ext.define('app.controller.Main', {
 
             'listpanel #summary': {
                 itemtap: 'simulation',
-                tap: 'closeoverlay',
+                //tap: 'closeoverlay',
             },
 
             '#ext-button-1': {
@@ -136,7 +136,7 @@ Ext.define('app.controller.Main', {
         });
 
         this.requestInfo(test_id, cb);
-        this.getOverlay().hide().showBy(this.getMapView(), 'br-br');
+        this.getOverlay().showBy(this.getMapView(), 'br-br');
     },
 
     showOverlay: function(list, index, element, record){

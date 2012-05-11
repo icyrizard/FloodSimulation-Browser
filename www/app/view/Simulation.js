@@ -6,14 +6,15 @@ Ext.define('app.view.Simulation', {
         items: 
         [
         {   
-            dock: 'top',
+            docked: 'top',
             xtype: 'toolbar',
-            title: 'Flood Simulation Browser'
+            title: 'Flood Simulation Browser',
         },
         {
             xtype: 'SimulationMap',
             flex: 2,
         }],
+
     }
 });
 
