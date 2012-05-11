@@ -7,7 +7,12 @@ Ext.define('app.controller.Main', {
             sidepanel: 'listpanel',
             api: 'api',
             mapView: 'SimulationMap',
-            overlay: '#overlay',
+            overlay: {
+                selector: 'overlay',
+                xtype: 'StepsOverlay',
+                autoCreate: true,
+            },
+
             simulation: 'simulationpanel'
         },
         control: {
@@ -18,6 +23,7 @@ Ext.define('app.controller.Main', {
 
             'listpanel #summary': {
                 itemtap: 'simulation',
+                tap: 'closeoverlay',
             },
 
             '#ext-button-1': {
@@ -48,9 +54,10 @@ Ext.define('app.controller.Main', {
     },
 
     callRemoveImages: function() {
-        this.getMapView().removeImages();
-        console.log('hide removeimages');
-        this.getOverlay().hide();
+        //console.log(this.getMapView());
+        //this.getMapView().removeImages();
+        //console.log('hide removeimages');
+        //this.getOverlay().hide();
 
     },
 
@@ -63,12 +70,18 @@ Ext.define('app.controller.Main', {
     },
 
     closeoverlay: function() {
+        console.log('close overlay');
         //console.log(this.getMapView().getCurrentImage());
-        this.setThumb();
-        console.log('call removeimages');
-        console.log(this.getOverlay());
+        //this.setThumb();
         this.getMapView().removeImages();
+        //this.getOverlay().destroy();
+        //this.getSimulation().remove(this.getOverlay());
         this.getOverlay().hide();
+        // if (this.getOverlay() != undefined)
+        //     this.getOverlay.destroy();
+        //this.getOverlay().slideOut('r');
+        //console.log('closedOverlay');
+
     },
 
     setMap: function(extmap, map){
@@ -76,48 +89,57 @@ Ext.define('app.controller.Main', {
         this.globalMap = map;
         this.getMapView().setGlobalMap(extmap, map);
         this.selectedIndex = [];
+       // 
     },
 
     simulation: function(list, index, element, record) {
+
+        // if (this.selectedElement != undefined)
+        //     this.selectedElement.setLeft(0, true);
+        // this.selectedElement = element;
+        // this.selectedElement.setLeft(-400, true);
+        //var overlay = this.getOverlay();
+        //console.log(overlay);
+        //Ext.create('app.view.StepsOverlay').hide();
+        //Ext.create('app.view.StepsOverlay').show();
+        // el.slideOu({
+        //     duration: 100,
+        //     to: {
+        //         opacity: 0
+        //     }
+        // });
+        //console.log(controls);
+        //this.getMapView().add({xtype: 'StepsOverlay'});
+        //console.log(this.getMapView());
+        // console.log(this.getOverlay());
+        // if (this.getOverlay() != undefined)
+        //     this.getOverlay.destroy();
+        //console.log(this.getOverlay());
+        //if (this.getOverlay() != undefined);
+        //    this.getOverlay().destroy();
+        //this.getSimulation().add({xtype: 'StepsOverlay'});
+        //console.log(Ext.getCmp('StepsOverlay'));
+        
         var cb = function(result){
             if (result['timesteps'].length > 0)
                 map.createOverlayImage(bounds, test_id, result['timesteps']);
         }
-        console.log(record);
+
         var store = Ext.getStore('SimulationDetailsStore');
         var test_id = record.get('test_id');
-        console.log(test_id)
         this.test_id = test_id;
-        console.log(this.this_id);
         var map = this.getMapView();
         var bounds;
-        console.log(store);
 
         store.each(function(r){
             bounds = r.get('visbounds');
         });
 
-        console.log(bounds);
         this.requestInfo(test_id, cb);
-        // var request = Ext.Ajax.request({
-        //     method: 'GET',
-        //     url: 'http://sangkil.science.uva.nl:8003/drfsm/'+ test_id +'/info.json',
-    
-        //     success: function(response, opts){
-        //         var result = Ext.decode(response.responseText);
-        //         if (result['timesteps'].length > 0)
-        //             map.createOverlayImage(bounds, test_id, result['timesteps']);
-        //     },
-
-        //     failure: function(){
-        //          console.log('failed to create images');
-        //     }
-        // });
-
-        this.getOverlay().showBy(element);
+        this.getOverlay().hide().showBy(this.getMapView(), 'br-br');
     },
 
-    showOverlay: function(list, index, element, record) {
+    showOverlay: function(list, index, element, record){
         this.getMapView().removeImages();
         var center = record.get('center');
         var selected = false;
@@ -141,7 +163,8 @@ Ext.define('app.controller.Main', {
             xtype: 'list',
             store: 'SimulationsSummary',
             itemTpl: '<div><img class="flood_thumb" id="{test_id}_flood"' +
-                    'style="width: 180px; height: 180px;" alt="noimage.png" src=""/> ' + 
+                    'style="height: 180px;" alt="noimage.png" src=""/> ' +
+                    '<div id="{test_id}_control" class="control"></div>' +  
                     '<div style:"clear:both"></div><b>{test_id}</b>: {submitted}</div>',
         });
         this.setThumb(center);
@@ -165,9 +188,10 @@ Ext.define('app.controller.Main', {
             if (dikes.length != 0)
                 this.getMapView().createOverlayPolygon(dikes);
             this.getMapView().createMarker(center);
-            //this.getImages();
-        }   
+        }
+
         this.getMapView().setCenterMap(center);
+        this.getMapView().alterMapOptions({zoom: 13});
     },
 
     setThumb: function(center){
@@ -182,13 +206,9 @@ Ext.define('app.controller.Main', {
                 //var mapImage ='http://maps.googleapis.com/maps/api/staticmap?center='+ center[0] +','+ center[1] + '&zoom=12&size=512x512&maptype=roadmap&sensor=false';
                 //document.getElementById(test_id + "_thumb").src = mapImage;//me.getMapView().getFloodImage(test_id, result['timesteps'][result['timesteps'].length - 1]); 
                 var image = me.getMapView().getFloodImage(test_id, result['timesteps'][result['timesteps'].length - 1]) || 'noimage.png';
-                console.log(image);
                 document.getElementById(test_id + "_flood").src = image;
             }
-            console.log(record.get('test_id'));
-            // console.log(this.requestInfo);
             me.requestInfo(record.get('test_id'), setImages);
-            
         });
 
         // if (typeof this.test_id != undefined) {
@@ -198,8 +218,8 @@ Ext.define('app.controller.Main', {
 
     requestInfo: function(test_id, callback){
             var request = Ext.Ajax.request({
-            method: 'GET',
-            url: 'http://sangkil.science.uva.nl:8003/drfsm/'+ test_id +'/info.json',
+                method: 'GET',
+                url: 'http://sangkil.science.uva.nl:8003/drfsm/'+ test_id +'/info.json',
     
             success: function(response, opts){
                 var result = Ext.decode(response.responseText);

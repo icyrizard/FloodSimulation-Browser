@@ -3,7 +3,8 @@ Ext.define('app.store.SimulationsSummary', {
 	requires: ['Ext.data.proxy.Rest'],
 	config: {
 		autoLoad: true,
-		fields :['simulations', 'area_id', 'test_id', 'submitted'],
+
+		fields :['area_id', 'test_id', 'submitted'],
  		proxy : {
 			type: 'rest',
 			url: 'http://sangkil.science.uva.nl:8003/drfsm/list.json?summary',
@@ -12,6 +13,5 @@ Ext.define('app.store.SimulationsSummary', {
 				rootProperty: 'simulations'
 			}
 		}
-	}
-
+	},
 });

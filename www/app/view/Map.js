@@ -4,6 +4,7 @@ Ext.define('app.view.Map', {
 	id: 'mapa',
 
 	config: {
+		useLoadMask : true,
 		mapOptions : {
 			zoom : 12,
 			mapTypeId : google.maps.MapTypeId.ROADMAP,
@@ -16,6 +17,7 @@ Ext.define('app.view.Map', {
 		listeners: {
 			maprender: function()
 			{
+				console.log('maprender');
 				this.overlayImages = [];
 				this.Images = [];
 				this.imageIndex = 0;
@@ -82,7 +84,6 @@ Ext.define('app.view.Map', {
 			var image = 'http://sangkil.science.uva.nl:8003/drfsm/' + area_id + '/visualization/level/map/' + timesteps[i] + '.png';
 			this.overlayImages.push(new google.maps.GroundOverlay(image, this.imageBounds));
 		}
-		console.log(this.overlayImages);
 		this.overlayImages[0].setMap(this.globalMap);
 	},
 
@@ -90,11 +91,9 @@ Ext.define('app.view.Map', {
 	{
 		var lastImagesIndex = this.imageIndex;
 		this.imageIndex += this.imageIndex <= this.overlayImages.length - 2 ? 1 : 0;
-		console.log(this.imageIndex);
 		if (this.imageIndex != lastImagesIndex)
 		{
 			this.overlayImages[this.imageIndex].setMap(this.globalMap);
-			console.log(this.overlayImages[this.imageIndex]);
 			this.overlayImages[this.imageIndex - 1].setMap(null);
 		}
 
@@ -103,11 +102,7 @@ Ext.define('app.view.Map', {
 
 	prevImage: function()
 	{
-		console.log(this.overlayImages);
-		console.log(this.overlayImages[this.imageIndex]);
-		console.log(this.imageIndex);
 		this.overlayImages[this.imageIndex].setMap(null);
-		console.log('removed');
 		this.imageIndex -= this.imageIndex > 0 ? 1 : 0;
 
 		if (this.imageIndex >= 0)

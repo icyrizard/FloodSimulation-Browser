@@ -77,7 +77,7 @@
 	 *  - iPad
 	 *  - Universal
 	 */
-	"deviceType":"iPad",
+	"deviceType":"Universal",
 
 	/**
 	 * @cfg {String} certificatePath
@@ -103,7 +103,7 @@
 	 * @cfg {String} sdkPath
 	 * This is the path to the Android SDK, if you are developing an Android application.
 	 */
-	"sdkPath":"/path/to/android-sdk",
+	"sdkPath":"~/Documents/android-sdk-macosx",
 	
 	/**
 	 * @cfg  androidAPILevel

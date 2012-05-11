@@ -10,14 +10,9 @@ Ext.define("app.view.List",
 	requires: [
 		'Ext.data.Store', 'Ext.dataview.List', 'Ext.Map'
 	],
+	title: 'Simulations',
 
 	config: {
-		layout: "card",
-        animation: {
-            type: 'slide',
-            direction: 'left',
-            duration: 1000
-        },
 		items: [
 			{
 				id: 'cities',
@@ -25,8 +20,6 @@ Ext.define("app.view.List",
 				ui: 'round',
 				itemTpl: '<div>{name}</div>',
 				store: 'SimulationStore',
-				flex: 1
-			},
-		],
+			}],
 	},
 });
