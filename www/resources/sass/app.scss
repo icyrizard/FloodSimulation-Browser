@@ -1,4 +1,9 @@
 @import 'sencha-touch/default/all';
+@include pictos-iconmask('close_overlay');
+@include sencha-toolbar-ui('darker_blue', #003F69, 'glossy');
+@include sencha-toolbar-ui('lighter_blue', #386EBA, 'glossy');
+@include sencha-button-ui('blue', #003F69, 'glossy');
+@include sencha-button-ui('red', #C40000, 'glossy');
 
 // You may remove any of the following modules that you
 // do not use in order to create a smaller css file.
@@ -17,44 +22,4 @@
 //@include sencha-msgbox;
 
 
-// Your custom code goes here...
-#overlay {
-	//@include border-radius(10px);
-// needs latest Compass, add '@import "compass"' to your scss
-background-color: rgb(255,255,255); // Old browsers
-@include filter-gradient(#ffffff, #b2b2b2, vertical); // IE6-9
-@include background-image(linear-gradient(top,  rgba(255,255,255,1) 0%,rgba(241,241,241,1) 65%,rgba(225,225,225,1) 82%,rgba(178,178,178,1) 100%));
 
-}
-
-#forward {
-	// needs latest Compass, add '@import "compass"' to your scss
-background-color: rgb(255,48,25); // Old browsers
-@include filter-gradient(#ff3019, #cf0404, vertical); // IE6-9
-@include background-image(linear-gradient(top,  rgba(255,48,25,1) 0%,rgba(207,4,4,1) 100%));
-
-}
-
-#backwards {
-	// needs latest Compass, add '@import "compass"' to your scss
-background-color: rgb(255,48,25); // Old browsers
-@include filter-gradient(#ff3019, #cf0404, vertical); // IE6-9
-@include background-image(linear-gradient(top,  rgba(255,48,25,1) 0%,rgba(207,4,4,1) 100%));
-}
-.x-button-pressed.overlay-button {
-	// needs latest Compass, add '@import "compass"' to your scss
-background-color: rgb(207,4,4); // Old browsers
-@include filter-gradient(#cf0404, #ff3019, vertical); // IE6-9
-@include background-image(linear-gradient(top,  rgba(207,4,4,1) 0%,rgba(255,48,25,1) 100%));
-
-}
-.x-button-pressed.overlay-button  {
-	// needs latest Compass, add '@import "compass"' to your scss
-	background-color: rgb(207,4,4); // Old browsers
-	@include filter-gradient(#cf0404, #ff3019, vertical); // IE6-9
-	@include background-image(linear-gradient(top,  rgba(207,4,4,1) 0%,rgba(255,48,25,1) 100%));
-}
-
-#closebutton {
-	background: none;
-}

@@ -8,13 +8,21 @@ Ext.define('app.view.Simulation', {
         {   
             docked: 'top',
             xtype: 'toolbar',
+            ui: 'darker_blue',
             title: 'Flood Simulation Browser',
+            items : [{
+                  id: 'simulationOptions',
+                  xtype: 'button',
+                  text: 'simulations',
+                  right: 0,
+                  top: 7,
+                  ui: ['square','blue'],
+            }]
         },
         {
             xtype: 'SimulationMap',
             flex: 2,
         }],
-
     }
 });
 

@@ -48,6 +48,10 @@ Ext.define('app.controller.Main', {
 
             '#overlay': {
                 hide: 'callRemoveImages',
+            },
+
+            '#opensimulations': {
+                tap: 'openSimulations'
             }
 
         }
@@ -230,7 +234,10 @@ Ext.define('app.controller.Main', {
                  console.log('failed to create images');
             }
         });
+    },
 
+    openSimulations: function(){
+        console.log('opensimulations');
     }
 });
 

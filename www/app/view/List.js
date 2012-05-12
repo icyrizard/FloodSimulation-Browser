@@ -13,6 +13,7 @@ Ext.define("app.view.List",
 	title: 'Simulations',
 
 	config: {
+		ui: 'lighter_blue',
 		items: [
 			{
 				id: 'cities',

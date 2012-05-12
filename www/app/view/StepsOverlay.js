@@ -19,8 +19,8 @@ Ext.define('app.view.StepsOverlay', {
     	//draggable: true,
     	autoDestroy: true,
     	hidden: true,
-	    width: 80,
-	    height: 150,
+	    width: 120,
+	    height: 100,
 	    scroll: false,
 	    items: [
 	    {
@@ -28,7 +28,8 @@ Ext.define('app.view.StepsOverlay', {
 	        id: 'closebutton',
 	        iconCls: 'delete',
 	        iconMask: true,
-	        height: 10,                  
+	        height: 10,   
+	        ui: 'red',               
 	        top: 0,
 	        right: 0,
 	        border: 'solid',
@@ -36,30 +37,31 @@ Ext.define('app.view.StepsOverlay', {
 	        scope: this,
 	    },
 	    {
-	        top: 50,
+	        top: 10,
+	        left: 20,
 	        align: 'center',
 	        items : [
 	        {
 	            xtype: "button",
 	            id: 'forward',
+	            ui: 'blue',
 	            cls: 'overlay-button',
 	            width: 45,
 	            iconCls: 'arrow_up',
 	            floating: 'right',
 	            iconMask: true,
 	            align: 'center',
-	            left: 20,
 
 	        },
 	        {
 	        	top: 50,
 	            xtype: "button",
 	            id: 'backwards',
+	            ui: 'blue',
 	            cls: 'overlay-button',
 	            width: 45,
 	            floating: 'left',
 	            iconCls: 'arrow_down',
-	            left: 20,
 	            align: 'center',
 	            iconMask: true,
 	        }]
