@@ -1,3 +1,4 @@
+/*list of areas*/
 Ext.define('app.store.SimulationStore', {
 	extend: 'Ext.data.Store',
 	requires: ['Ext.data.proxy.Rest'],

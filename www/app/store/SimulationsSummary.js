@@ -1,3 +1,4 @@
+/*second card list-window*/
 Ext.define('app.store.SimulationsSummary', {
 	extend: 'Ext.data.Store',
 	requires: ['Ext.data.proxy.Rest'],

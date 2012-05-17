@@ -15,7 +15,7 @@ Ext.application({
         'Ext.MessageBox', 'app.CustomProxy'
     ],
 
-    views: ['Main', "Home", "Simulation", "List", 'Map', 'StepsOverlay'],
+    views: ['Main', "Home", "Simulation", "List", 'Map', 'StepsOverlay', 'OptionsPanel'],
 
     icon: {
         57: 'resources/icons/Icon.png',

@@ -5,6 +5,7 @@ Ext.define('app.view.StepsOverlay', {
 	
     
     config: {
+    	style: "background: none",
     	id: 'overlay',
     	showAnimation: {
     		type: 'slideIn',
@@ -16,10 +17,9 @@ Ext.define('app.view.StepsOverlay', {
     		direction:'right',
     	},
 
-    	//draggable: true,
-    	autoDestroy: true,
+    	//autoDestroy: true,
     	hidden: true,
-	    width: 120,
+	    width: 200,
 	    height: 100,
 	    scroll: false,
 	    items: [
@@ -38,7 +38,7 @@ Ext.define('app.view.StepsOverlay', {
 	    },
 	    {
 	        top: 10,
-	        left: 20,
+	        left: 30,
 	        align: 'center',
 	        items : [
 	        {
@@ -51,7 +51,7 @@ Ext.define('app.view.StepsOverlay', {
 	            floating: 'right',
 	            iconMask: true,
 	            align: 'center',
-
+	            left: 40
 	        },
 	        {
 	        	top: 50,
@@ -64,7 +64,63 @@ Ext.define('app.view.StepsOverlay', {
 	            iconCls: 'arrow_down',
 	            align: 'center',
 	            iconMask: true,
-	        }]
+	            left: 40
+	        },
+	        {
+	        	top: 24,
+	            xtype: "button",
+	            id: 'play',
+	            ui: 'blue',
+	            cls: 'overlay-button',
+	            width: 40,
+	            floating: 'left',
+	            iconCls: 'arrow_right',
+	            align: 'center',
+	            iconMask: true,
+	            left: 85,
+	        },
+
+	        {
+	        	top: 24,
+	        	hidden: true,
+	            xtype: "button",
+	            id: 'pause',
+	            ui: 'red',
+	            cls: 'overlay-button',
+	            width: 40,
+	            floating: 'left',
+	            iconCls: 'pause',
+	            align: 'center',
+	            iconMask: true,
+	            left: 85,
+	        },
+	        {
+	        	top: 24,
+	            xtype: "button",
+	            id: 'play-backw',
+	            ui: 'blue',
+	            cls: 'overlay-button',
+	            width: 40,
+	            floating: 'left',
+	            iconCls: 'arrow_left',
+	            align: 'center',
+	            iconMask: true,
+	            left: 0,
+	        },
+	        {
+	        	top: 24,
+	        	hidden: true,
+	            xtype: "button",
+	            id: 'pause-backw',
+	            ui: 'red',
+	            cls: 'overlay-button',
+	            width: 40,
+	            floating: 'left',
+	            iconCls: 'pause',
+	            align: 'center',
+	            iconMask: true,
+	            left: 0,
+	        }],
 	    }],
 
 	    listeners: [{

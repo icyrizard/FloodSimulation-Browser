@@ -1,9 +1,12 @@
 @import 'sencha-touch/default/all';
 @include pictos-iconmask('close_overlay');
+@include pictos-iconmask('play1');
+@include pictos-iconmask('pause');
 @include sencha-toolbar-ui('darker_blue', #003F69, 'glossy');
-@include sencha-toolbar-ui('lighter_blue', #386EBA, 'glossy');
+@include sencha-toolbar-ui('lighter_blue', #00538F, 'glossy');
 @include sencha-button-ui('blue', #003F69, 'glossy');
 @include sencha-button-ui('red', #C40000, 'glossy');
+
 
 // You may remove any of the following modules that you
 // do not use in order to create a smaller css file.

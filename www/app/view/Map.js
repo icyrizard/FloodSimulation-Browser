@@ -18,11 +18,11 @@ Ext.define('app.view.Map', {
 		listeners: {
 			maprender: function()
 			{
-				console.log('maprender');
 				this.overlayImages = [];
 				this.Images = [];
 				this.imageIndex = 0;
 				this.imageBounds = null;
+				this.play = false;
 			}
 		}
 	},
@@ -51,7 +51,6 @@ Ext.define('app.view.Map', {
      * 
 	 */
 	createMarker: function(pos){
-		console.log("setmarker");
         var pos = new google.maps.LatLng(pos[0], pos[1]);
         new google.maps.Marker({
             position: pos,
@@ -61,33 +60,31 @@ Ext.define('app.view.Map', {
 		});
 	},
 
-	/*create overlay*/
+	
 	// 'http://sangkil.science.uva.nl:8003/drfsm/199419691/visualization/level/map/600.png'
 	// 'http://sangkil.science.uva.nl:8003/drfsm/207/visualization/level/map/300.png' ;
+	/*create overlays with area_id, bounds and timesteps
+	 * Bounds: array(4) 
+	*/
 	createOverlayImage: function(bounds, area_id, timesteps) {
-		console.log('createOverlayImages ' +  timesteps);
 		this.imageIndex = 0;
 		this.imageBounds = new google.maps.LatLngBounds(
 				new google.maps.LatLng(bounds[2],bounds[3]),
 				new google.maps.LatLng(bounds[0],bounds[1]));
-		
 		this.bounds = bounds;
-		// delete all other images
 		if (this.overlayImages.length > 1)
-		{
 			this.removeImages();
-		}
 		//var image = 'http://sangkil.science.uva.nl:8003/lsm/' + area_id +'/visualization/level/map/400.png';	
 
 		for (i in timesteps)
 		{
-			console.log(i);
 			var image = 'http://sangkil.science.uva.nl:8003/drfsm/' + area_id + '/visualization/level/map/' + timesteps[i] + '.png';
 			this.overlayImages.push(new google.maps.GroundOverlay(image, this.imageBounds));
 		}
 		this.overlayImages[0].setMap(this.globalMap);
 	},
 
+	/* set next Image*/
 	nextImage: function()
 	{
 		var lastImagesIndex = this.imageIndex;
@@ -97,10 +94,9 @@ Ext.define('app.view.Map', {
 			this.overlayImages[this.imageIndex].setMap(this.globalMap);
 			this.overlayImages[this.imageIndex - 1].setMap(null);
 		}
-
-		
 	},
 
+	/*set prev image*/
 	prevImage: function()
 	{
 		this.overlayImages[this.imageIndex].setMap(null);
@@ -109,13 +105,11 @@ Ext.define('app.view.Map', {
 		if (this.imageIndex >= 0)
 		{
 			this.overlayImages[this.imageIndex].setMap(this.globalMap);
-			console.log(this.overlayImages[this.imageIndex]);
 		}
 	},
 
 	removeImages: function()
 	{
-		console.log('removedImages');
 		for (i in this.overlayImages)
 			this.overlayImages[i].setMap(null);
 		this.imageIndex = 0;
@@ -144,13 +138,11 @@ Ext.define('app.view.Map', {
 	getCurrentImage: function(){
 		if (this.overlayImages.length > 0) {
 			this.overlayImages[this.imageIndex];
-			console.log(this.overlayImages[this.imageIndex]);
 			return this.overlayImages[this.imageIndex].url;
 		}	
 	},
 
 	getFloodImage: function(test_id, timestep){
-		console.log(timestep);
 		if (timestep)
 			return 'http://sangkil.science.uva.nl:8003/drfsm/' + test_id + '/visualization/level/map/' + timestep + '.png';
 		else return false;

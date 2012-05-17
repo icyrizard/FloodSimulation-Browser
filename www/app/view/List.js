@@ -7,13 +7,19 @@ Ext.define("app.view.List",
 	extend: "Ext.navigation.View",
 	xtype: 'listpanel',
 
+
 	requires: [
 		'Ext.data.Store', 'Ext.dataview.List', 'Ext.Map'
 	],
 	title: 'Simulations',
 
 	config: {
-		ui: 'lighter_blue',
+		
+		navigationBar:
+		{
+			ui: 'darker_blue',
+			//html: '<h1>Simulations Panel</h1>',
+		},
 		items: [
 			{
 				id: 'cities',

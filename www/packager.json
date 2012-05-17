@@ -11,7 +11,7 @@
 	 * @cfg {String} applicationId
 	 * This is the name namespace for your application. On IOS, this should match the name of your application in the Apple Provisioning Portal.
 	 */
-	"applicationId":"com.mycompany.myAppID",
+	"applicationId":"com.codefabriek.tipspottmp",
 
 	/**
 	 * @cfg {String} versionString
@@ -63,7 +63,7 @@
 	 *  - Android
 	 *  - AndroidEmulator
 	 */
-	"platform":"iOSSimulator",
+	"platform":"Android",
 
 	/**
 	 * @cfg {String} deviceType
@@ -84,7 +84,7 @@
 	 * This is the location of your certificate.
 	 * This is required when you are developing for Android or you are developing on Windows.
 	 */
-	"certificatePath":"/path/to/certificate.file",
+	"certificatePath":"~/Documents/UvA/floodsimulation/FloodSimulation-Browser/flood-key.keystore",
 
 	/**
 	 * @cfg {String} certificateAlias
