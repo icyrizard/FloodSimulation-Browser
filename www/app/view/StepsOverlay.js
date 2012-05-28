@@ -7,6 +7,7 @@ Ext.define('app.view.StepsOverlay', {
     config: {
     	style: "background: none",
     	id: 'overlay',
+    	html: 'Controls',
     	showAnimation: {
     		type: 'slideIn',
     		direction:'left',
@@ -17,10 +18,9 @@ Ext.define('app.view.StepsOverlay', {
     		direction:'right',
     	},
 
-    	//autoDestroy: true,
     	hidden: true,
-	    width: 200,
-	    height: 100,
+	    width: 220,
+	    height: 130,
 	    scroll: false,
 	    items: [
 	    {
@@ -38,7 +38,7 @@ Ext.define('app.view.StepsOverlay', {
 	    },
 	    {
 	        top: 10,
-	        left: 30,
+	        left: 35,
 	        align: 'center',
 	        items : [
 	        {

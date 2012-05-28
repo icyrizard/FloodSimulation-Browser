@@ -5,9 +5,9 @@ Ext.Loader.setPath({
 //</debug>
 
 Ext.application({
-    controllers: ["Main"],
+    controllers: ["Lsm", "Main"],
     models: ["SimulationModel", "SimulationDetails"],
-    stores: ['SimulationStore', 'SimulationDetailsStore', 'SimulationsSummary'],
+    stores: ['SimulationStore', 'SimulationDetailsStore', 'SimulationsSummary', 'LsmStore'],    
 
     name: 'app',
 
@@ -15,7 +15,8 @@ Ext.application({
         'Ext.MessageBox', 'app.CustomProxy'
     ],
 
-    views: ['Main', "Home", "Simulation", "List", 'Map', 'StepsOverlay', 'OptionsPanel'],
+    views: ['Main', "Home", "Simulation", "List", 'Map', 'StepsOverlay', 'OptionsPanel', 
+            'SimulationList', 'LsmSimulationList'],
 
     icon: {
         57: 'resources/icons/Icon.png',

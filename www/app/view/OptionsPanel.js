@@ -2,20 +2,24 @@ Ext.define('app.view.OptionsPanel', {
 	extend: 'Ext.Panel',
 	xtype: 'SimulationOptions',
 	id: 'simulation_options',
+	requires: ['Ext.dataview.List'],
 	config: {
+		layout: 'hbox',
 		right: 40,
 		width: 200,
 		height: 100,
-		//scroll: true,
+		hideOnMaskTap: true,
 		modal: true,
-		items: [{
+		items: [
+		{
 			xtype: 'list',
-			fullscreen: true,
+			id: 'optionsList',
+			width: '100%',
 			itemTpl: 'Simulation {type}',
 			data: [
-				{type: "Flood Simulation"},
+				{type: "Flood"},
 				{type: "Lsm"}
 			],
-		}]
+		}],
 	}
 });

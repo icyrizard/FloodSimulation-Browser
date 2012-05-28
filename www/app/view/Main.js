@@ -9,6 +9,8 @@ Ext.define("app.view.Main", {
         items: [
         {
             xtype: 'listpanel',
+            width: '20%',
+            style: 'border-right: 1px solid #373737',
             flex: 1,
         },
         {    

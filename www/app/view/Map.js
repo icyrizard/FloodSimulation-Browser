@@ -54,19 +54,30 @@ Ext.define('app.view.Map', {
         var pos = new google.maps.LatLng(pos[0], pos[1]);
         new google.maps.Marker({
             position: pos,
-            icon: 'Google_Maps_Marker.png',
+            icon: 'resources/images/Google_Maps_Marker.png',
             map: this.globalMap,
             title: 'you'
 		});
 	},
 
-	
 	// 'http://sangkil.science.uva.nl:8003/drfsm/199419691/visualization/level/map/600.png'
 	// 'http://sangkil.science.uva.nl:8003/drfsm/207/visualization/level/map/300.png' ;
 	/*create overlays with area_id, bounds and timesteps
 	 * Bounds: array(4) 
 	*/
-	createOverlayImage: function(bounds, area_id, timesteps) {
+	createOverlayImage: function(bounds, area_id, timesteps, simulationType) {
+		console.log(timesteps);
+		var url = '';
+		if (simulationType == 'Flood')
+		{
+			url = 'http://sangkil.science.uva.nl:8003/drfsm/' + area_id + '/visualization/level/map/';
+		}
+		else if (simulationType == 'Lsm')
+		{
+			url = 'http://sangkil.science.uva.nl:8003/lsm/' + area_id + '/visualization/paru/map/';
+		}
+		else return false;
+		console.log(url);
 		this.imageIndex = 0;
 		this.imageBounds = new google.maps.LatLngBounds(
 				new google.maps.LatLng(bounds[2],bounds[3]),
@@ -75,30 +86,41 @@ Ext.define('app.view.Map', {
 		if (this.overlayImages.length > 1)
 			this.removeImages();
 		//var image = 'http://sangkil.science.uva.nl:8003/lsm/' + area_id +'/visualization/level/map/400.png';	
-
 		for (i in timesteps)
 		{
-			var image = 'http://sangkil.science.uva.nl:8003/drfsm/' + area_id + '/visualization/level/map/' + timesteps[i] + '.png';
-			this.overlayImages.push(new google.maps.GroundOverlay(image, this.imageBounds));
+			//var image = 'http://sangkil.science.uva.nl:8003/drfsm/' + area_id + '/visualization/level/map/' + timesteps[i] + '.png';
+			var image = new Image();
+			image.src = url + timesteps[i] + '.png';
+			console.log(image.src);
+			this.overlayImages.push(new google.maps.GroundOverlay(image.src, this.imageBounds));
 		}
+
 		this.overlayImages[0].setMap(this.globalMap);
+		this.imageIndex = this.overlayImages.length;
 	},
 
 	/* set next Image*/
 	nextImage: function()
 	{
-		var lastImagesIndex = this.imageIndex;
-		this.imageIndex += this.imageIndex <= this.overlayImages.length - 2 ? 1 : 0;
-		if (this.imageIndex != lastImagesIndex)
-		{
-			this.overlayImages[this.imageIndex].setMap(this.globalMap);
-			this.overlayImages[this.imageIndex - 1].setMap(null);
-		}
+		if (this.overlayImages.length <= 1)
+			return;
+		var lastIndex = (this.overlayImages.length + this.imageIndex) % this.overlayImages.length;
+		this.imageIndex = (this.overlayImages.length + this.imageIndex + 1) % this.overlayImages.length;
+		//this.imageIndex = (this.overlayImages.length + this.imageIndex + 1) % (this.overlayImages.length);
+		console.log(this.imageIndex);
+		//this.overlayImages[this.imageIndex - 1].setMap(null);
+		this.overlayImages[this.imageIndex].setMap(this.globalMap);	
+		this.overlayImages[lastIndex].setMap(null);
+		//this.imageIndex = (this.imageIndex + 1) % (this.overlayImages.length);
+		console.log(this.imageIndex);
+
 	},
 
 	/*set prev image*/
 	prevImage: function()
 	{
+		if (this.overlayImages.length <= 1)
+			return;
 		this.overlayImages[this.imageIndex].setMap(null);
 		this.imageIndex -= this.imageIndex > 0 ? 1 : 0;
 
