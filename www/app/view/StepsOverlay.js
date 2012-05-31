@@ -5,9 +5,10 @@ Ext.define('app.view.StepsOverlay', {
 	
     
     config: {
-    	style: "background: none",
+    	// style: "background-image: url(resources/images/bg.png) x-repeat y-repeat !important",
     	id: 'overlay',
-    	html: 'Controls',
+    	style: 'background: none;',
+    	html: '<div id="controls_title"><h2>Controls<h2></div>',
     	showAnimation: {
     		type: 'slideIn',
     		direction:'left',
@@ -26,18 +27,17 @@ Ext.define('app.view.StepsOverlay', {
 	    {
 	        xtype: 'button',
 	        id: 'closebutton',
-	        iconCls: 'delete',
-	        iconMask: true,
-	        height: 10,   
-	        ui: 'red',               
-	        top: 0,
+	        top: -10,
 	        right: 0,
+	        ui:'plain',
 	        border: 'solid',
+	        style: 'color: white; background: none',
+	        html: 'x',
 	        handler: this.closebutton,
 	        scope: this,
 	    },
 	    {
-	        top: 10,
+	        top: 30,
 	        left: 35,
 	        align: 'center',
 	        items : [

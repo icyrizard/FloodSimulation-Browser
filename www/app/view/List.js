@@ -18,14 +18,15 @@ Ext.define("app.view.List",
 		navigationBar:
 		{
 			title: 'simulations',
-			ui: 'darker_blue',
+			ui: 'charcoal',
             items : [{
     	          id: 'simulationOptions',
 	              xtype: 'button',
-                  text: 'simulations',
+                  iconCls: 'list',
+                  iconMask: true,
                   left: '100%',
                   top: 7,
-                  ui: ['square','blue'],
+                  ui: ['square'],
             }]
 		},
 

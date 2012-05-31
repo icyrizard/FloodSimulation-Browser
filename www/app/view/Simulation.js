@@ -8,7 +8,7 @@ Ext.define('app.view.Simulation', {
         {   
             docked: 'top',
             xtype: 'toolbar',
-            ui: 'darker_blue',
+            ui: 'charcoal',
             title: 'Flood Simulation Browser',
         },
         {
