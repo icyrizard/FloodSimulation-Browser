@@ -16,7 +16,7 @@ Ext.application({
     ],
 
     views: ['Main', "Home", "Simulation", "List", 'Map', 'StepsOverlay', 'OptionsPanel', 
-            'SimulationList', 'LsmSimulationList'],
+            'SimulationList', 'LsmSimulationList', 'Chart'],
 
     icon: {
         57: 'resources/icons/Icon.png',

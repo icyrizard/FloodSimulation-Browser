@@ -19,7 +19,7 @@ Ext.define('app.view.StepsOverlay', {
     		direction:'right',
     	},
 
-    	hidden: true,
+		hidden: true,
 	    width: 220,
 	    height: 130,
 	    scroll: false,

@@ -7,14 +7,11 @@ Ext.define("app.view.List",
 	extend: "Ext.navigation.View",
 	xtype: 'listpanel',
 
-
 	requires: [
 		'Ext.data.Store', 'Ext.dataview.List', 'Ext.Map'
 	],
 	title: 'Simulations',
-
 	config: {
-		
 		navigationBar:
 		{
 			title: 'simulations',
@@ -29,15 +26,15 @@ Ext.define("app.view.List",
                   ui: ['square'],
             }]
 		},
-
 		
 		items: [
-			{
+		{
+				title: 'city\'s',
 				id: 'cities',
 				xtype: 'list',
 				ui: 'round',
 				itemTpl: '<div>{name}</div>',
 				store: 'SimulationStore',
-			}],
+		}],
 	},
 });

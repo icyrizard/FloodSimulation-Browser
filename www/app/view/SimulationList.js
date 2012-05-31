@@ -8,6 +8,7 @@ Ext.define('app.view.SimulationList', {
 		scrollable: {
 			momentum: false
 		},
+		title: 'Floods',
 		fullscreen: true,
 		store: 'SimulationsSummary',
 		itemTpl: '<div><img class="map_thumb" id="{test_id}_map"' +

@@ -3,6 +3,7 @@ Ext.define('app.view.LsmSimulationList', {
 	xtype: 'LsmSimulationList',
 	id: 'lsmsimulation-list',
 	config: {
+		title: 'lsm',
 		store: 'LsmStore',
 		itemTpl: '{submitted}',
 	}
