@@ -5,7 +5,7 @@ Ext.Loader.setPath({
 //</debug>
 
 Ext.application({
-    controllers: ["Lsm", "Main"],
+    controllers: ["Lsm", "Main", "ChartController"],
     models: ["SimulationModel", "SimulationDetails"],
     stores: ['SimulationStore', 'SimulationDetailsStore', 'SimulationsSummary', 'LsmStore'],    
 

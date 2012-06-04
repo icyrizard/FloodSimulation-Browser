@@ -63,7 +63,6 @@ Ext.define('app.controller.Main', {
 
             'listpanel #summary': {
                 itemtap: 'simulate',
-                scroll: 'scroll'
             },
 
             '#mapa': {
@@ -108,19 +107,10 @@ Ext.define('app.controller.Main', {
 
             'listpanel #lsmsimulation-list':{
                 itemtap: 'simulate',
-                show: 'allo',
             }
         }
     },
 
-    scroll: function(){
-        console.log('scroll');
-    },
-
-    allo: function(){
-        console.log("allo");
-    },
-    
     initiateCities: function(){
         this.getSimOptionsButton().show();
     },

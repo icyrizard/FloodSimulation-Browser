@@ -22,14 +22,23 @@ Ext.define('app.view.Map', {
 				this.Images = [];
 				this.imageIndex = 0;
 				this.imageBounds = null;
-				this.play = false;
+				this.play = false;		
 			}
 		}
+	},
+
+	getReference: function(){
+		return this.globalMap;
 	},
 
 	setGlobalMap: function(extmap, map){
 		this.globalMap = map;
 		this.globalExtMap = extmap;
+
+		google.maps.event.addListener(map, 'click', function(){
+			console.log('click');
+		});
+		//this.globalMap.on('click', );
 	},
 	
 	setCenterMap: function(center){
