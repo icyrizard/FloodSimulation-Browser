@@ -111,20 +111,24 @@ Ext.define('app.controller.Main', {
         }
     },
 
-    initiateCities: function(){
-        this.getSimOptionsButton().show();
-    },
-    /* first function to call */
-    setMap: function(extmap, map){
-        this.test_id = null;
-        this.globalMap = map;
-        this.getMapView().setGlobalMap(extmap, map);
+    init: function() {
         this.selectedIndex = [];
         /*default simulation type*/
         this.SimulType = 'Flood';
+        this.test_id = null;
     },
 
-    stopBackwImages: function(button){
+    initiateCities: function() {
+        this.getSimOptionsButton().show();
+    },
+    
+    /* first function to call */
+    setMap: function(extmap, map) {
+        this.globalMap = map;
+        this.getMapView().setGlobalMap(extmap, map);
+    },
+
+    stopBackwImages: function(button) {
         clearInterval(this.interval);
         button.hide();
         this.getPlayBackw().show();
@@ -194,11 +198,9 @@ Ext.define('app.controller.Main', {
      * of the simulation panel
      */
     simulate: function(list, index, element, record) {
-        console.log('simulate call');
         var me = this;
         /*first, remove all images, even if there werent any*/
         this.getMapView().removeImages();       
-        //console.log(this.getOverlay());
         /*create reference, cb looses scope of this.*/
         var map = this.getMapView(),
             /*The simulationDetailStore has the details of the get test_id*/
@@ -215,9 +217,11 @@ Ext.define('app.controller.Main', {
          */
         var cb = function(result){
             var timesteps = result['timesteps'] || result['images'];
-            console.log(timesteps);
-            if (timesteps.length > 0)
+            if (timesteps.length > 0){
                 map.createOverlayImage(bounds, test_id, timesteps, me.SimulType);
+                map.testId = result['test_id'];
+                map.areaId = result['area_id'];
+            }
         }
 
         var store = Ext.getStore('SimulationDetailsStore');
@@ -230,12 +234,10 @@ Ext.define('app.controller.Main', {
         /* The information of the simulation, has data of the time
          * steps available, crucial data for the displaying the images.
          */
-        //console.log(this.getSimulationOptions().getSelectedCls())
         var url = '';
         if (this.SimulType == 'Flood')
         {
             url = 'http://sangkil.science.uva.nl:8003/drfsm/'+ test_id +'/info.json';
-            console.log(this.SimulType);
         }
         else url = 'http://sangkil.science.uva.nl:8003/lsm/'+ test_id +'/visualization/paru/info.json';
         this.requestInfo(test_id, cb, url);
@@ -251,8 +253,6 @@ Ext.define('app.controller.Main', {
      */
     showList: function(list, index, element, record){
         this.getSimOptionsButton().hide();
-        //console.log(this.getSimulationOptions());
-        //this.getSimulationOptions().hide();
         /*Remove images, even if there werent any*/
         this.getMapView().removeImages();
         /*store center*/
@@ -272,15 +272,15 @@ Ext.define('app.controller.Main', {
         var store_lsm = Ext.getStore('LsmStore');
         store_lsm.clearFilter();
         store_lsm.filter("area_id", area_id);
-        /* clear filter, if the flters are not cleared, they will
-         * be filtered on top of each other, resuting in an unwanted
-         * state.
+
+        /* clear filter, if the filters are not cleared, they will
+         * be filtered on top of each other, resulting in an unwanted
+         * state of the store.
          */
         store.clearFilter();
         store.filter("area_id", area_id);
 
         /*push the side panel, in future create the view somewhere else*/
-        console.log(this.SimulType);
         if (this.SimulType == 'Flood')
         {
             this.setThumb(center);
@@ -290,7 +290,6 @@ Ext.define('app.controller.Main', {
             this.getSidepanel().push(this.getLsmSimulation());
         
         /*set thumb images*/
-        //this.setThumb(center);
         /*the store with details of the of the simulation*/
         var store = Ext.getStore('SimulationDetailsStore');
 
@@ -300,12 +299,12 @@ Ext.define('app.controller.Main', {
 
         if (selected == false)
         {
-            
-            this.selectedIndex.push(index);
             var dikes = null;
             var bounds = record.get('visbounds');
             var corners = record.get('corners');
 
+            /*Make sure this is not done again*/
+            this.selectedIndex.push(index);
             store.each(function(r) {
                 dikes = r.get('dikes');
             });

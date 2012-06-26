@@ -29,7 +29,7 @@ Ext.define("app.view.List",
 		
 		items: [
 		{
-				title: 'city\'s',
+				title: 'Locations',
 				id: 'cities',
 				xtype: 'list',
 				ui: 'round',

@@ -22,7 +22,10 @@ Ext.define('app.view.Map', {
 				this.Images = [];
 				this.imageIndex = 0;
 				this.imageBounds = null;
-				this.play = false;		
+				this.play = false;
+				this.testId = 0;
+				this.areaId = 0;
+				this.listener_ref = null;
 			}
 		}
 	},
@@ -34,11 +37,6 @@ Ext.define('app.view.Map', {
 	setGlobalMap: function(extmap, map){
 		this.globalMap = map;
 		this.globalExtMap = extmap;
-
-		google.maps.event.addListener(map, 'click', function(){
-			console.log('click');
-		});
-		//this.globalMap.on('click', );
 	},
 	
 	setCenterMap: function(center){
@@ -75,7 +73,7 @@ Ext.define('app.view.Map', {
 	 * Bounds: array(4) 
 	*/
 	createOverlayImage: function(bounds, area_id, timesteps, simulationType) {
-		console.log(timesteps);
+		var me = this;
 		var url = '';
 		if (simulationType == 'Flood')
 		{
@@ -86,7 +84,6 @@ Ext.define('app.view.Map', {
 			url = 'http://sangkil.science.uva.nl:8003/lsm/' + area_id + '/visualization/paru/map/';
 		}
 		else return false;
-		console.log(url);
 		this.imageIndex = 0;
 		this.imageBounds = new google.maps.LatLngBounds(
 				new google.maps.LatLng(bounds[2],bounds[3]),
@@ -100,29 +97,41 @@ Ext.define('app.view.Map', {
 			//var image = 'http://sangkil.science.uva.nl:8003/drfsm/' + area_id + '/visualization/level/map/' + timesteps[i] + '.png';
 			var image = new Image();
 			image.src = url + timesteps[i] + '.png';
-			console.log(image.src);
 			this.overlayImages.push(new google.maps.GroundOverlay(image.src, this.imageBounds));
 		}
 
 		this.overlayImages[0].setMap(this.globalMap);
 		this.imageIndex = this.overlayImages.length;
+
+		/*remove clickevent and add to new image*/
+		if (this.listeners_ref != null)
+			google.maps.event.removeListener(listenerHandle);
+
+		this.listeners_ref = google.maps.event.addListener(this.overlayImages[0], 'click', function(event){
+			me.fireEvent('gotClick', event);
+		});
 	},
 
 	/* set next Image*/
 	nextImage: function()
 	{
+		var me = this;
 		if (this.overlayImages.length <= 1)
 			return;
 		var lastIndex = (this.overlayImages.length + this.imageIndex) % this.overlayImages.length;
 		this.imageIndex = (this.overlayImages.length + this.imageIndex + 1) % this.overlayImages.length;
 		//this.imageIndex = (this.overlayImages.length + this.imageIndex + 1) % (this.overlayImages.length);
-		console.log(this.imageIndex);
 		//this.overlayImages[this.imageIndex - 1].setMap(null);
 		this.overlayImages[this.imageIndex].setMap(this.globalMap);	
-		this.overlayImages[lastIndex].setMap(null);
-		//this.imageIndex = (this.imageIndex + 1) % (this.overlayImages.length);
-		console.log(this.imageIndex);
 
+		if (this.listeners_ref != null)
+			google.maps.event.removeListener(listenerHandle);
+
+		this.listeners_ref = google.maps.event.addListener(this.overlayImages[this.imageIndex], 'click', function(event){
+			me.fireEvent('gotClick', event);
+		});
+		this.overlayImages[lastIndex].setMap(null);
+		//this.imageIndex = (this.imageIndex + 1) % (this.overlayImages.length)
 	},
 
 	/*set prev image*/
@@ -169,7 +178,7 @@ Ext.define('app.view.Map', {
 	getCurrentImage: function(){
 		if (this.overlayImages.length > 0) {
 			this.overlayImages[this.imageIndex];
-			return this.overlayImages[this.imageIndex].url;
+			return this.overlayImages[this.imageIndex];
 		}	
 	},
 

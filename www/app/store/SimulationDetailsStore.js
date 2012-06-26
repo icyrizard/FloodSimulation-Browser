@@ -1,6 +1,6 @@
 Ext.define('app.store.SimulationDetailsStore', {
 	extend: 'Ext.data.Store',
-	requires: ['app.CustomProxy'],
+	requires: ['Ext.data.proxy.Rest'],
 	xtype: 'SimulationDetailsStore',
 
 	config: {
