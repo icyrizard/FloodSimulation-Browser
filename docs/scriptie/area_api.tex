@@ -1,0 +1,111 @@
+\section{Area API}
+\label{sec: area_api}
+\begin{lstlisting}
+# Terms
+
+Map: digital terrain map (DTM)
+Projected map: inundation map projected/transformed to WGS84/EPSG:3857
+               (e.g. Google Maps) projection system
+
+# Area List
+
+GET /area/list.json
+
+response:
+
+    {"stat": "ok",
+     "areas": [
+        {"area_id": 1,
+         "name": "Science Park",
+         "center": [52.347185, 4.9370885],
+         "corners": [[52.334349, 4.904065], [52.334349, 4.970112],
+                     [52.360021, 4.970112], [52.360021, 4.904065]],
+         "visbounds": [52.360021000000003, 4.9701120000000003,
+                       52.334349000000003, 4.9040650000000001]}
+
+     ]}
+
+note:
+
+    - "center" is the center point coordinate of the map, in latitude
+      and longitude
+    - "corners" contains 4 pairs of numbers showing the WGS84 coordinate of the
+      four corners of the area, in latitude and longitude
+    - coordinates in the "corners" correspond to the coordinate of
+      the lower left, lower right, upper right, and upper left corners
+      of the area, consecutively
+    - "visbounds" contains 4 numbers representing the WGS84 coordinate of
+      north, east, south, west in latitude or longitude for laying out the
+      projected flooding image
+
+
+# Area List (query)
+
+GET /area/list.json?bounds=north,east,south,west
+
+
+
+# Area Info
+
+GET /area/<area_id>/info.json
+
+response:
+
+    {"stat": "ok",
+     "area_id": 1,
+     "name": "Science Park",
+     "center": [52.347185, 4.9370885],
+     "corners": [[52.334349, 4.904065], [52.334349, 4.970112],
+                 [52.360021, 4.970112], [52.360021, 4.904065]],
+     "size": [880, 565],
+     "extents": [[0, 0], [0, 0]],
+     "projection": "...",
+     "visbounds": [52.360021000000003, 4.9701120000000003,
+                   52.334349000000003, 4.9040650000000001],
+     "vissize": [880, 565],
+     "dikes": [[[lat1, lng1], [lat2, lng2], [lat3, lng3], [lat4, lng4]],
+               [[lat5, lng5], [lat6, lng6], [lat7, lng7], [lat8, lng8]]]
+    }
+
+note:
+
+    - "corners" contains 4 pairs of numbers showing the WGS84 coordinate of
+      the four corners of the area in latitude and longitude
+    - "size" shows width and height of the DTM and Inudation Zones Map
+    - "center" is the center point WGS84 coordinate of the map, in latitude
+      and longitude
+    - "extents" contains 2 pairs of numbers showing the coordinate of
+      the lower left and upper right corner of the map in its original
+      projection unit
+    - "projection" contains projection parameter of the map in WKT format
+    - "visbounds" contains 4 numbers representing the WGS84 coordinate of
+      north, east, south, west in latitude or longitude for laying out the
+      projected flooding image in this area
+    - "vissize" is the size of projected flooding image in this area.
+      Because of the projection, the flooding image may have different size
+      compared to the original DTM/Inundation Zones size
+    - "dikes" contains a list of closed polygons described by a list of
+      WGS84 coordinates which shows the region of the dikes in the area
+
+# Digital Terrain Map
+
+GET /area/<area_id>/topography.txt
+GET /area/<area_id>/topography.txt.gz
+
+
+# Inundation Zones Map
+
+GET /area/<area_id>/zones.txt
+GET /area/<area_id>/zones.txt.gz
+
+# Coordinate to Inundation Zone id mapping
+
+GET /area/<area_id>/izid.json?latlng=<LAT>,<LNG>
+
+response:
+
+    {"stat": "ok",
+     "area_id": 1,
+     "latlng": [52.347185, 4.9370885],
+     "izid": 12345}
+\end{lstlisting}

@@ -1,0 +1,62 @@
+\documentclass[a4paper, 11pt]{article}
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage[margin=2.5cm, nohead]{geometry}
+\usepackage{palatino, url, multicol}
+\usepackage{amssymb, graphicx, fancyhdr, latexsym, url, verbatim}
+\usepackage{algorithm, algorithmic}
+\usepackage{hyperref}
+%\usepackage{natbib}
+\usepackage[all]{xy}
+\usepackage{listings}
+\usepackage{cite}
+\usepackage{makeidx}
+\usepackage[english]{babel}
+\usepackage[font=small,format=plain,labelfont=bf,up,textfont=it,up]{caption}
+\usepackage{xspace}
+%\usepackage{subfigure} % has to be loaded after caption to prevent clash Commented, because subfig is the newer (and presumably
+% better) version of subfigure...
+\usepackage{subfig}
+\usepackage{xcolor}	
+%\usepackage[titles,subfigure]{tocloft}
+%
+%
+%\setlength{\cftbeforesecskip}{0.1cm}
+\newcommand{\todo}[1]{\colorbox{red}{\color{white}#1}}
+\newcommand{\projectName}{Flood Simulation Browser\xspace}
+% xspace only puts a space where we want one!
+
+\addtolength{\footskip}{-200mm}
+\addtolength{\headheight}{-05mm}
+\addtolength{\headsep}{05mm}
+
+\pagestyle{fancy}
+\lhead{\projectName}
+\rhead{\small F.S.B.}
+%\cfoot{\footnotesize \textit{ \projectAbbreviation}\\[0.1cm] \small \thepage}
+%\cfoot{}
+%\rfoot{\thepage}
+
+
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{10pt}
+
+\begin{document}
+\include{title}
+%\thispagestyle{empty}
+\newpage
+\tableofcontents
+\newpage
+
+\begin{abstract}
+The end product of this project is an multi-platform application, designed specifically for tablets, that will aid the urban flood project in viewing simulated floods. The current implementation this application is done on a multi-touch table which is not easily portable. To reach to goal of mobility and to be able to reach more public, tablets have the same interaction features as the multi-touch table and are therefore chosen to reach this goal. This project involves an investigation for the best possible tools to implement such an application. A side objective is to test how many peers the back-end server can handle at ones. This will also be reported in this document.
+\end{abstract}
+
+\input{fsb}
+\bibliographystyle{plain}
+\bibliography{references}
+
+\appendix
+\label{appendixA}
+\include{area_api}
+\end{document}
