@@ -15,7 +15,7 @@ Ext.define("app.view.List",
 		navigationBar:
 		{
 			title: 'simulations',
-			ui: 'charcoal',
+			
             items : [{
     	          id: 'simulationOptions',
 	              xtype: 'button',

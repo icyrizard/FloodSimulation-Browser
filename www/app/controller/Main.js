@@ -373,8 +373,4 @@ Ext.define('app.controller.Main', {
             this.SimulType = 'Flood'
         this.getSimulationOptions().hide();  
     },
-
-    pushSimulationList: function(){
-        //this.getSidepanel().push(this.getLsmSimulation());
-    }
 });

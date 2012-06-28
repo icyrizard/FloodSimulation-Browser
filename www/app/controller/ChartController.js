@@ -11,10 +11,12 @@ Ext.define('app.controller.ChartController', {
 				autoCreate: true,
 			},
 
-			chartData : {
+			ChartData : {
 				selector: 'flood-chart-id',
 				autoCreate: true,
 			},
+
+			ExpandButton: '#expand-button',
 
 			mapView: 'SimulationMap',
 		},
@@ -26,11 +28,16 @@ Ext.define('app.controller.ChartController', {
 
 			'#closeChart': {
 				tap: 'closeFloodChart'
-			}
+			},
+
+			'#expand-button': {
+				tap: 'expandChart'
+			},
 		},
 	},
 
 	init: function(){
+		self.marker = null;
 		me = this;
 		app.Api.on({
 			gotIzid: function(izid){
@@ -47,7 +54,19 @@ Ext.define('app.controller.ChartController', {
 		me = this;
 		this.getMapView().on({
 			gotClick: function(event){
-				app.Api.getIzid(event.latLng.lat(), event.latLng.lng())
+				if (self.marker != null) {
+					self.marker.setMap(null);
+					self.marker = null;
+				}
+				lat = event.latLng.lat();
+				lng = event.latLng.lng();
+				options = {
+					icon: 'resources/images/crosshair.png',
+					draggable: true,
+					raiseOnDrag: true,
+				};
+				self.marker = me.getMapView().createMarker([lat, lng], options);
+				app.Api.getIzid(lat, lng, me.getMapView().areaId)
 			}
 		});
 	},
@@ -63,31 +82,31 @@ Ext.define('app.controller.ChartController', {
 		for (i = 1; i < array.length; i++)
 		{
 			line_clmns = array[i].split(',');
+			console.log(parseInt(line_clmns[0]));
 			data.push({
-				time : time.push(parseInt(line_clmns[0]) + i * 100),
-				volume : volume.push(line_clmns[1])
+				time : parseInt(line_clmns[0]),
+				volume : parseInt(line_clmns[2]),
+				time1 : parseInt(line_clmns[0]),
+				volume1: parseInt(line_clmns[2])
 			});
 		}
 
-
-	 	console.log(data);
-	 	
-		this.openChart();
+	 	store.setData(data);
+	 	this.openChart();
 	},
 
-	getFile: function(result){
-		app.Api.getCsvFile(result['izid']);
+	openChart: function(){
+		this.getFloodchart().showBy(this.getMapView(), 'bl-bl');
+
 	},
 
 	closeFloodChart: function(){
 		this.getFloodchart().hide();
 	},
 
-	getData: function(latLng){
-		app.Api.getIzid(latLng.lat(), latLng.lng())
-	},
+	expandChart: function(){
+		
+		
+	}
 
-	openChart: function(){
-		this.getFloodchart().showBy(this.getMapView());
-	},
 });

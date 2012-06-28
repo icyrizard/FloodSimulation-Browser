@@ -48,23 +48,35 @@ Ext.define('app.view.Map', {
 	 */
 	alterMapOptions: function(options){
 		this.globalExtMap.setMapOptions(options);
-	},
-
-	/*
-	 * createMarker: 
-     *  sets marker at pos
+     },
+    /*  sets marker at pos
      * @params: 
      *		pos = [latitude, longitude]
      * 
 	 */
-	createMarker: function(pos){
+	createMarker: function(pos, options){
         var pos = new google.maps.LatLng(pos[0], pos[1]);
-        new google.maps.Marker({
+        if (options != null){
+        	icon = options['icon'] || 'resources/images/Google_Maps_Marker.png';
+        	draggable = options['draggable'] || false;
+        	raiseOnDrag = options['raiseOnDrag'] || false;
+    	}
+    	else {
+    		icon = 'resources/images/Google_Maps_Marker.png';
+    		draggable = false;
+    		raiseOnDrag = false;
+    	}
+
+        marker = new google.maps.Marker({
             position: pos,
-            icon: 'resources/images/Google_Maps_Marker.png',
+            icon: icon,
             map: this.globalMap,
-            title: 'you'
+            title: 'you',
+      		raiseOnDrag: true,
+            draggable: draggable,
+
 		});
+		return marker;
 	},
 
 	// 'http://sangkil.science.uva.nl:8003/drfsm/199419691/visualization/level/map/600.png'
@@ -105,7 +117,7 @@ Ext.define('app.view.Map', {
 
 		/*remove clickevent and add to new image*/
 		if (this.listeners_ref != null)
-			google.maps.event.removeListener(listenerHandle);
+			google.maps.event.removeListener(this.listeners_ref);
 
 		this.listeners_ref = google.maps.event.addListener(this.overlayImages[0], 'click', function(event){
 			me.fireEvent('gotClick', event);
@@ -124,8 +136,10 @@ Ext.define('app.view.Map', {
 		//this.overlayImages[this.imageIndex - 1].setMap(null);
 		this.overlayImages[this.imageIndex].setMap(this.globalMap);	
 
-		if (this.listeners_ref != null)
-			google.maps.event.removeListener(listenerHandle);
+		if (this.listeners_ref != null){
+			google.maps.event.removeListener(this.listeners_ref);
+		}
+
 
 		this.listeners_ref = google.maps.event.addListener(this.overlayImages[this.imageIndex], 'click', function(event){
 			me.fireEvent('gotClick', event);
