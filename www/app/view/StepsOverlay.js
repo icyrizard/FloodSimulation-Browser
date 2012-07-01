@@ -14,15 +14,11 @@ Ext.define('app.view.StepsOverlay', {
     		direction:'left',
     	},
 
-    	hideAnimation:{
-    		type: 'slideOut',
-    		direction:'right',
-    	},
-
 		hidden: true,
 	    width: 220,
 	    height: 130,
 	    scroll: false,
+	    draggable: true,
 	    items: [
 	    {
 	        xtype: 'button',
@@ -123,14 +119,7 @@ Ext.define('app.view.StepsOverlay', {
 	        }],
 	    }],
 
-	    listeners: [{
-	    	hide: function(){
-	    		console.log('hide StepsOverlay');
-	    	}
-	    }],
-
 	    closebutton: function(){
-	    	console.log('closebutton');
 	    	Ext.dispatch({
 	    		controller: app.controller.Main,
 	    		action: 'closeoverlay'

@@ -26,6 +26,7 @@ Ext.define('app.view.Map', {
 				this.testId = 0;
 				this.areaId = 0;
 				this.listener_ref = null;
+				this.marker_listener = null;
 			}
 		}
 	},
@@ -55,6 +56,7 @@ Ext.define('app.view.Map', {
      * 
 	 */
 	createMarker: function(pos, options){
+		map = this.globalExtMap;
         var pos = new google.maps.LatLng(pos[0], pos[1]);
         if (options != null){
         	icon = options['icon'] || 'resources/images/Google_Maps_Marker.png';
@@ -75,6 +77,12 @@ Ext.define('app.view.Map', {
       		raiseOnDrag: true,
             draggable: draggable,
 
+		});
+		if (this.marker_listener != null)
+			google.maps.event.removeListener(this.marker_listener);
+
+		this.marker_listener = google.maps.event.addListener(marker, 'dragend', function(event){
+			map.fireEvent('dragend', event);
 		});
 		return marker;
 	},
@@ -109,6 +117,7 @@ Ext.define('app.view.Map', {
 			//var image = 'http://sangkil.science.uva.nl:8003/drfsm/' + area_id + '/visualization/level/map/' + timesteps[i] + '.png';
 			var image = new Image();
 			image.src = url + timesteps[i] + '.png';
+			console.log(image.src);
 			this.overlayImages.push(new google.maps.GroundOverlay(image.src, this.imageBounds));
 		}
 
@@ -139,7 +148,6 @@ Ext.define('app.view.Map', {
 		if (this.listeners_ref != null){
 			google.maps.event.removeListener(this.listeners_ref);
 		}
-
 
 		this.listeners_ref = google.maps.event.addListener(this.overlayImages[this.imageIndex], 'click', function(event){
 			me.fireEvent('gotClick', event);

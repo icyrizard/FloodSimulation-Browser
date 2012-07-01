@@ -2,7 +2,6 @@ presentation.pdf: presentation.tex
 
 %.pdf: %.tex
 	pdflatex $^
-	pdflatex $^
 
 %.bbl: %.bib
 	pdflatex scriptie.tex

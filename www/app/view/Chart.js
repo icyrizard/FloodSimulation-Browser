@@ -8,14 +8,15 @@ Ext.define('app.view.Chart', {
         width: 520,
         height: 420,
         layout: 'fit',
-        draggable: false,
+        draggable: true,
 		items: [{
             xtype: 'chart',
             theme: 'Base',
             animate: true,
             id: 'flood-chart-id',
             store: 'chartStore',
-            width: 520,
+            left: 20,
+            width: 490,
             height: 400,
             axes: [
                 {
@@ -56,14 +57,13 @@ Ext.define('app.view.Chart', {
         },
         {
             xtype: 'button',
-            ui: 'circle ',
+            ui: 'close',
             id: 'closeChart',
-            left: -15,
-            top: -15,
-            width: 30,
-            height: 30,
-            cls: 'closebutton',
-            style: 'background: url(resources/images/closebutton50.png) no-repeat; background-size: 30px; border: none',
+            left: 0,
+            top: 0,
+            iconCls: 'delete',
+            iconMask: true,
+            //style: 'background: url(resources/images/closebutton50.png) no-repeat; background-size: 30px; border: none',
         }],
         // {
         //     xtype: 'button',

@@ -243,7 +243,7 @@ Ext.define('app.controller.Main', {
         this.requestInfo(test_id, cb, url);
 
         /*show overlay*/
-        this.getOverlay().showBy(this.getMapView(), 'br-br');
+        this.getOverlay().showBy(this.getMapView(), 'tr-tr');
     },
 
     /* When an area is selected, this function is executed

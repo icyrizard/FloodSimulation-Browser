@@ -20,6 +20,9 @@
 \begin{frame}
 \maketitle
 \end{frame}
+\begin{frame}
+\tableofcontents
+\end{frame}
 \section{Introductie}
 \begin{frame}
 \frametitle{Introduction}
@@ -29,9 +32,11 @@
 \item Urban Flood Project
 \item Early Warning System
 \item Burgers en Hulpdiensten
+\item Steeds Belangrijker
 \item Sensoren in dijk + Internet
-\item Water Simulatie
 \item Hoogte Kaart
+\item Water Simulatie
+\item Voorlichting met multi-touch table
 \end{itemize}
 \column{2.0in}
 \begin{figure}
@@ -46,7 +51,6 @@
 \begin{columns}[c]
 \column{5cm}
 \begin{itemize}
-\item Visualisatie laten zien
 \item Informeren over overstromingsgebied
 \item Zien wat er als eerst onderwater gaat
 \item Evacuatie routes
@@ -61,16 +65,18 @@
 \end{figure}
 \end{columns}
 \end{frame}
-\section{De requirements}
+\section{Dit project}
 \begin{frame}
-\frametitle{Requirements}
+\frametitle{Dit Project}
 \begin{itemize}
+\item Toegankelijkheid vergroten
 \item Browser geschikt maken voor Tablets
 \item Server levert plaatjes + coördinaten (Bounding Box)
-\item Plaatjes over Google maps leggen - uitgebreid API support voor overlays
+\item Plaatjes over een kaart leggen, e.g. Google Maps
 \item Intuïtief design
-\item Taal/framework keuze
-\item Mijn eis is: Crossplatform
+\item Extra eis: Crossplatform, daarmee meer publiek
+\item Onderzoek taal/framework keuze voor Crossplatform
+\item Extra onderzoek: Back-end server testen.
 \end{itemize}
 \end{frame}
 \section{App Design}
@@ -80,9 +86,10 @@
 \column{5cm}
 \begin{itemize}
 \item Hoe mensen tablets vasthouden (Clark, 2012)
-\item Letten op hierachie in importantie bij plaatsing componenten
+\item Letten op hierachie bij plaatsing componenten(belangrijke knoppen bovenaan)
 \item Weergeven van simulaties (Locaties en bijbehorende simulaties)
 \item Simulatiestappen kunnen doorlopen (controls).
+\item Plotten van informatie over overstroming.
 \end{itemize}
 \column{5cm}
 \begin{figure}
@@ -123,20 +130,22 @@
 \begin{frame}
 \frametitle{Implementatie}
 \begin{columns}
-\column{5cm}
+\column{6cm}
 \begin{itemize}
 \item Sencha Touch 2
-\item Layout
+\item Download sencha touch + SDK Tools (command line tool)
+\item Start met leeg project: \\ \texttt{\$ sencha generate app my\_app}
+\item Layouts bieden layout
 \item Flex 1, 2
 \item List Objecten
 \item Map Object
 \end{itemize}
-\column{5cm}
+\column{4cm}
 \begin{figure}
 \includegraphics[scale=0.3]{docktop.png}
 \end{figure}
 \begin{figure}
-\includegraphics[scale=0.1]{ui/fsb_layout.png}
+\includegraphics[width=4cm]{ui/fsb_layout.png}
 \end{figure}
 \end{columns}
 \end{frame}
@@ -149,7 +158,7 @@
   *+<5ex>[F]{Store}\ar[r]^{\txt<5pc>{fields}} &   *+<5ex>[F]{List}\ar[r] & \includegraphics[scale=0.2]{ui/citieslist.png}\ar[dr] \\
   *+<5ex>[F]{Store}\ar[r]^{\txt<5pc>{fields}} &   *+<5ex>[F]{List}\ar[rr] & & \includegraphics[scale=0.2]{ui/simselected.png}
 }
-\caption{Store and List}
+\caption{Stores and Lists}
 \end{figure}
 \end{frame}
 \begin{frame}
@@ -192,8 +201,9 @@
 \begin{frame}
 \begin{itemize}
 \frametitle{Deployment}
-\item Test in Browser
-\item Build: \textit{sencha app build native}
+\item Snel testen in browser (webkit)
+\item Build naar device:\texttt{\$ sencha app build native}
+\item \texttt{packager.json}
 \begin{itemize}
 	\item iOSSimulator
 	\item iOS
@@ -205,6 +215,7 @@
 
 \section{Server Testing}
 \begin{frame}[fragile]
+\frametitle{Test in Browser}
 \begin{itemize}
 \item Tool: Siege
 \item \url{sangkil.science.uva.nl}
@@ -254,23 +265,25 @@ done
 \bibitem{urban flood}
   Urban Flood Project,
   \url{http://urbanflood.eu/default.aspx}.
-  Retrieved 9 april
+
 \bibitem{Sencha Touch}
 	Sencha Touch 2.
 	\url{http://docs.sencha.com/touch/2-0/}.
-	Retrieved 9 april
+
 \bibitem{Google Maps API}
 	Google Maps API,
 	\url{https://developers.google.com/maps/}.
-	Retrieved 9 april
 \bibitem{PhoneGap}
 	PhoneGap
 	\url{http://www.PhoneGap.com}.
-	Retrieved 9 april
 \bibitem{Titanium Mobile}
 	Titanium Appcelerator,
 	\url{http://www.appcelerator.com/}.
-	Retrieved 9 april
+\bibitem{Scalability}
+	Freimuth, D., Hu E.,LaVoie,  J.,Mraz, R., Nahum, E., Pradhan, P., \& Tracey, J. (2005). Server Network Scalability and TCP Offload.
+	IBM T. J. Watson Research Center
+\bibitem{Touch}
+	Clark,  J.(2012). designing-touch. \url{http://www.netmagazine.com/features/designing-touch}.
 \end{thebibliography}
 \end{frame}
 \begin{frame}

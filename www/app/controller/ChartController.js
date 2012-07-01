@@ -38,10 +38,11 @@ Ext.define('app.controller.ChartController', {
 
 	init: function(){
 		self.marker = null;
-		me = this;
+		map = this.getMapView();
+
 		app.Api.on({
 			gotIzid: function(izid){
-				app.Api.getCsvFile(me.getMapView().testId, izid);
+				app.Api.getCsvFile(map.testId, izid);
 			},
 
 			gotCsv: function(result){
@@ -52,7 +53,8 @@ Ext.define('app.controller.ChartController', {
 
 	addListener: function(){
 		me = this;
-		this.getMapView().on({
+		map = this.getMapView();
+		map.on({
 			gotClick: function(event){
 				if (self.marker != null) {
 					self.marker.setMap(null);
@@ -61,12 +63,19 @@ Ext.define('app.controller.ChartController', {
 				lat = event.latLng.lat();
 				lng = event.latLng.lng();
 				options = {
-					icon: 'resources/images/crosshair.png',
+					icon: 'resources/images/marker.png',
 					draggable: true,
 					raiseOnDrag: true,
 				};
-				self.marker = me.getMapView().createMarker([lat, lng], options);
-				app.Api.getIzid(lat, lng, me.getMapView().areaId)
+
+				self.marker = map.createMarker([lat, lng], options);
+				app.Api.getIzid(lat, lng, map.areaId);
+			},
+			dragend: function(event){
+				console.log(event);
+				lat = event.latLng.lat();
+				lng = event.latLng.lng();
+				app.Api.getIzid(lat, lng, map.areaId);		
 			}
 		});
 	},
@@ -82,12 +91,9 @@ Ext.define('app.controller.ChartController', {
 		for (i = 1; i < array.length; i++)
 		{
 			line_clmns = array[i].split(',');
-			console.log(parseInt(line_clmns[0]));
 			data.push({
 				time : parseInt(line_clmns[0]),
 				volume : parseInt(line_clmns[2]),
-				time1 : parseInt(line_clmns[0]),
-				volume1: parseInt(line_clmns[2])
 			});
 		}
 
@@ -96,7 +102,7 @@ Ext.define('app.controller.ChartController', {
 	},
 
 	openChart: function(){
-		this.getFloodchart().showBy(this.getMapView(), 'bl-bl');
+		this.getFloodchart().showBy(this.getMapView(), 't-t');
 
 	},
 

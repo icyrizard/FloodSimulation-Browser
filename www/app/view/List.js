@@ -8,7 +8,7 @@ Ext.define("app.view.List",
 	xtype: 'listpanel',
 
 	requires: [
-		'Ext.data.Store', 'Ext.dataview.List', 'Ext.Map'
+		'Ext.data.Store', 'Ext.dataview.List'
 	],
 	title: 'Simulations',
 	config: {
