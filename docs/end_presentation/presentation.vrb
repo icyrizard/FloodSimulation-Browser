@@ -1,0 +1,15 @@
+\begin {itemize}
+\item Tool: Siege
+\item \url{sangkil.science.uva.nl}
+\item file met verschillende requests, random uitgevoerd
+\item Concurrente processen
+\item Herhalingen
+\end{itemize}
+\begin{lstlisting}
+#!/bin/bash
+rep=(10 50 100 200 300 400 500)
+for i in "${rep[@]}"
+do
+siege -i -b -f /path/to/requests_file.txt -c $i -r $1
+done
+\end{lstlisting}
