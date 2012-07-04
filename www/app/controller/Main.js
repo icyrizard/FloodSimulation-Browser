@@ -224,7 +224,7 @@ Ext.define('app.controller.Main', {
             }
         }
 
-        var store = Ext.getStore('SimulationDetailsStore');
+        var store = Ext.getStore('FloodDetailStore');
 
         /*Get visbounds, for later use in overlay map*/
         store.each(function(r) {
@@ -280,7 +280,7 @@ Ext.define('app.controller.Main', {
         store.clearFilter();
         store.filter("area_id", area_id);
 
-        /*push the side panel, in future create the view somewhere else*/
+        /*push the side panel*/
         if (this.SimulType == 'Flood')
         {
             this.setThumb(center);
@@ -289,11 +289,11 @@ Ext.define('app.controller.Main', {
         else if(this.SimulType == 'Lsm')
             this.getSidepanel().push(this.getLsmSimulation());
         
-        /*set thumb images*/
-        /*the store with details of the of the simulation*/
-        var store = Ext.getStore('SimulationDetailsStore');
 
-        /*change url, a short coming of the store object of sencha touch*/
+        /*the store with details of the simulation*/
+        var store = Ext.getStore('FloodDetailStore');
+
+        /*change url of the store, a short coming of the store object of sencha touch*/
         store.setUrl(area_id);
         store.load();
 
