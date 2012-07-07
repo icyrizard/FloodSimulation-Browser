@@ -27,8 +27,9 @@ The \emph{simulation} system already exists and runs in the cloud. That means it
 Not only does the system calculates the flow of water but it also calculates the estimated route that people take. It can calculate how much people would survive a simulated flood, keeping in mind that this project is all about saving people, this is interesting information.
  
 \subsection{Flood API}
-The API is a REST api that return JSON formatted string. The API functions as an interface to get the data of simulations and to start new simulations. It's a client server system where requests are done by the client and the appropriate data is transferred back to the client. With this data, information about a certain simulation can be displayed. The data can be in the form of an image or information in .csv files. The .csv files can be plotted and displayed in as a chart or graph. See part two for more information about the returned payloads.
-New simulations are not done on the same server but done by HR Wallingsford 
+The API is a REST api that return JSON formatted string. The API functions as an interface to get the data of simulations and to start new simulations. It's a client server system where requests are done by the client and the appropriate data is transferred back to the client. With this data, information about a certain simulation can be displayed. The data can be in the form of an image or information in .csv files. The .csv files can be plotted and displayed in a chart. See part two for more information about the returned payloads.
+New simulations are not done on the same server but done by HR Wallingsford, a company that's globally active with water projects like these. They provide a service to do such simulations.
+\todo {HR Wallingsford referentie en meer verhaal}
 
 
 \section{Flood Simulation App}
@@ -70,8 +71,8 @@ Sencha touch provides a command-line tool to build a starting environment. It cr
 
 A disadvantage of Sencha Touch could be, as seen in figure ~\ref{fig:sencha}, the syntax of sencha touch is not so easy at first. So the learning curve could be very steep.
 The last argument that has a great influence on deciding which framework to use, could be that Sencha Touch provides an add-on that has the capability to create multi-touch charts. The original implementation of the urban flood browser on the multi-touch table has this feature. It would be a great extension of the project if this was possible. So with an eye on the future it could save a lot trouble, and it could add up to a more intuitive design. The next section will discuss this in more detail.
-\pagebreak
-\begin{figure}[h!]
+
+\begin{figure}[H]
 \begin{lstlisting}
 Ext.application({
     name: 'foo',
@@ -95,16 +96,14 @@ Ext.application({
 \end{figure}
 \end{description}
 
-\vspace{1cm}
 \subsection{Requirements Analysis}
 \label{sec:requirements}
-In short this involves the question, what does the application have to do? First of all, user needs to be able to see different simulations and be able to distinguish where certain simulations are located. Starting displaying the cities that are available as simulations would be the starting point of where the users can start interacting with the application. For displaying the cities a request to server is needed to  for displaying the cities. 
-The cities are . The corresponding simulations have to be retrieved from the server and displayed in a list. Those list-items are the individual simulations, so it makes sense that when tapping on a list item, the simulation of the related item is going to be displayed. The form of these simulations are important. As previously stated, the simulations are in the form of images. These images are images from above and can be placed on the map. In order to display these images, there has to be a map available. Next, the latitude and longitude information is needed in order to place the image on the map.
+In short this involves the question, what does the application have to do? First of all, the users need to be able to see different simulations and be able to distinguish where certain simulations are located. Starting displaying the locations that are available as simulations would be the starting point of where the users can start interacting with the application. For displaying the locations a request to server is needed to for displaying those. 
+The locations are mostly named by cities. The corresponding simulations have to be retrieved from the server and displayed in a list. Those list-items are the individual simulations, so it makes sense that when tapping on a list item, the simulation of the related item is going to be displayed. The form of these simulations are important. As previously stated, the simulations are in the form of images. These images are images from above and can be placed on the map. In order to display these images, there has to be a map available. Next, the latitude and longitude information is needed in order to place the image on the map.
 
 As mentioned before, the floodsimulations are in the form of multiple imagery that are placed on the map. A requirement for these simulation images are that the user can control which image it wants to see in chronological sequence but of course does not decide the sequence is going to be. This requirement results in the need for controls for this feature. These controls need to be displayed somewhere in the viewport when the user has tapped on a list item of a simulation.
 
 The flood simulations contain information about how much volume of water is present in a certain timestep. The simulations are divided in zones and labelled with an id. So a simulation contains information, this information needs to be displayed in such a way that it can be interpreted by the user. This would require a chart of some sort with the timesteps on the x-axis and some other value like volume on the y-axis. To determine the zone which contains the information, a latitude and longitude information is needed again. How this is done is described in part two of this document.
-
 
 \subsection{App Design} 
 \label{sec:appdesign}
@@ -128,15 +127,16 @@ The list component where cities and simulations are placed is the left side of t
 \caption{Cities list of which simulations are available}
 \end{figure}
 
-\begin{figure}[ht]
+The flood simulation browser that is already build for the multi-touch table has the ability to submit new simulations to be simulated in the cloud. The spot of the simulation can be arbitrary on the map, by simply touching a place on the map and alter some parameters, the cloud service can create a new simulation to be seen. Although this feature can be an seen as an extension of my project, with time left this feature can be build in. That's why it can be considered in the App's design. The controls of these parameters need to be somewhere in view, by placing this in the neighbourhood where the user touches the map could be intuitive. But not if it happens when the user is just navigating over the map, the user has to know that it is in the mode of with picking a place where to create a new simulation. The specification about these controls are discussed in the end report.
+
+Furthermore, it's an important feature to display data of a simulation in certain area. The API provides this data. It holds information about how much water flows in that area over time. This data is the volume of water per timestep. The API requests latitude, longitude values, it then returns data of a location that is closest to this point. The application needs to display this data in a clear and understandable way. Charts are great way to display this data. In development of this application there needs to be a clear understanding of what usability is. Only displaying a chart of certain values could not be enough to learn anything or draw conclusions about the flood. The goal is to make use of the Sencha Touch Chart framework in order to provide comprehensive data of a flood in a certain area. See figure \label{fig:sencha chart} for an example of the chart framework.
+
+\begin{figure}[H]
+\center
 	\includegraphics[scale=0.5]{chart.png} \\
 \caption{Example of sencha chart}
 \label{fig:sencha chart}
 \end{figure}
-
-The flood simulation browser that is already build for the multi-touch table has the ability to submit new simulations to be simulated in the cloud. The spot of the simulation can be arbitrary on the map, by simply touching a place on the map and alter some parameters, the cloud service can create a new simulation to be seen. Although this feature can be an seen as an extension of my project, with time left this feature can be build in. That's why it can be considered in the App's design. The controls of these parameters need to be somewhere in view, by placing this in the neighbourhood where the user touches the map could be intuitive. But not if it happens when the user is just navigating over the map, the user has to know that it is in the mode of with picking a place where to create a new simulation. The specification about these controls are discussed in the end report.
-
-Furthermore, it's an important feature to display data of a simulation in certain area. The API provides this data. It holds information about how much water flows in that area over time. This data is the volume of water per timestep. The API requests latitude, longitude values, it then returns data of a location that is closest to this point. The application needs to display this data in a clear and understandable way. Charts are great way to display this data. In development of this application there needs to be a clear understanding of what usability is. Only displaying a chart of certain values could not be enough to learn anything or draw conclusions about the flood. The goal is to make use of the Sencha Touch Chart framework in order to provide comprehensive data of a flood in a certain area. See figure \label{fig:sencha chart} for an example of the chart framework.
 
 \subsection{Scalability}
 \label{sec:scalability}
@@ -148,7 +148,7 @@ For stress testing the server a tool called siege \cite{Siege} would be of assis
 \item Elapsed Time - seconds
 \item Data Transferred - MB
 \item Response Time - seconds
-\item Transaction Rate - seconds 
+\item Transaction Rate - $\frac{Transactions}{Elapsed Time}$
 \item Throughput - MB/s
 \item Concurrency - rate of concurrency
 \item Succesful transaction - number of succeeded hits
@@ -172,16 +172,16 @@ Part one describes the questions and some answers on what the approach of tackli
 A clear understanding of which request have to be done in order to gain the right information is needed first before beginning with any implementation. The full api is referenced in the appendix \ref{appendixA}. The appendix is referenced and used for explanations in the following sections.
 
 \section{Sencha Touch 2}
-The decision is fallen on Sencha Touch 2. Sencha Touch provides cross-platform capability and is based on web technology. Although Sencha Touch comes with a whole new syntax, based on Ext (reference!!), the content, look and logic is based on web languages.
+The decision is fallen on Sencha Touch 2. Sencha Touch provides cross-platform capability and is based on web technology. Although Sencha Touch comes with a unique syntax, based on Ext (reference!!), the content, look and logic is based on web languages.
 Part one section \ref{sec:appdesign} the design of a touch application is discussed. The application is going to be created with the findings described in that section. Also the mockups \ref{fig:mockup} created early on in the project are great for keeping track on what the end goal should look like. 
 %The requirements of the application discussed in section \ref{sec:requirements} are created in 
 
 Sencha Touch is based on MVC with an addition of stores. Stores can hold information of whatever the application needs, more about this in a moment. The model is used for the communication with the database, the controller stands between the model and the view. The controller can steer between views and handle logic. The application has no direct need of models, since there is no database that has to be updated. Stores can handle enough communication between the server and the application. 
 
 \subsection{Stores and Lists}
-The stores in this application are prominently used for filling the lists. In particular the cities list en simulationslist. A list object is defined as the following. See appendix \ref{sec:area_api}.
+The stores in this application are prominently used for filling the lists. In particular the cities list en \texttt{simulationslist}. A list object is defined as the following.
 
-\begin{figure}[h!]
+\begin{figure}[H]
 \begin{lstlisting}
 store = Ext.create('Ext.data.Store'{
     fields: ['name', 'corners', 'visbounds', 'area_id', 'center', 'size'],
@@ -206,7 +206,7 @@ Ext.create('Ext.List', {
 The store is automatically updated when the values change on the server. When something changes in the store, the list is also automatically updated. The specified fields are available in the list, containing the name of the field between brackets \texttt{\{ \}}, the field name of record $n$ is placed in list item $n$. Five stores are present in the application. \texttt{SimulationStore.js}, \texttt{SimulationDetailStore.js}, \texttt{LsmStore.js}, \texttt{SimulationsSummary.js}, \texttt{ChartStore.js}. 
 \begin{itemize}
 \item SimulationStore.js \\
-Is sync with \url{http://sangkil.science.uva.nl:8003/area/list.json} on the server. Locally the store is in sync with the view List.js. Basically this store returns information of the simulation locations that are available. The most important data are the name, center, visbounds and area\_id. With the name for displaying in the list-item, the center for changing the map's center to the location of the simulation and visbounds are used for the image overlay. The area\_id is used in FloodDetailStore. When the user taps on a location, the data of longitude and latitude information is used to change the center of the map and push a new list over the current list. The second list holds information about which all the simulations available.
+Is sync with \url{http://sangkil.science.uva.nl:8003/area/list.json} on the server. Locally the store is in sync with the view \texttt{List.js}. Basically this store returns information of the simulation locations that are available. The most important data are the name, center, visbounds and area\_id. With the name for displaying in the list-item; the center for changing the map's center to the location of the simulation and the visbounds are used for the image overlay. When the user taps on a location, the data of longitude and latitude information is used to change the center of the map and push a new list over the current list, since a tap event on a list-item returns the tapped item and the store used for creating this list. The second list holds information about which all the simulations available.
 \item FloodDetailStore.js \\
 Is in sync with multiple urls, \url{http://sangkil.science.uva.nl:8003/area/<area\_id>/info.json}, where the area is the area that is selected in List.js. This store adds information of dikes. The rest of the data is already present in the SimulationStore.js. The dikes consists of eight values, which are 4 corners with a latitude and longitude value. This means that a polygon can be formed from these four locations and displayed on the map.
 \item LsmDetailStore.js \\
@@ -214,29 +214,171 @@ This store holds information of the population dynamics, meaning how the evacuat
 \item SimulationSummary.js \\
 Syncs with \url{http://sangkil.science.uva.nl:8003/drfsm/list.json?summary}. This returns a json string that holds a list of all the simulations.Luckily a store can be filtered on a certain value. All the simulations have an area\_id specified. The store is filtered on the area\_id selected in List.js. Note that filters stay present, so before doing anything the store has to be cleared of all the filters.
 \item ChartStore.js \\
-This store is used for creating the chart. The chart expects a jsonStore with data and fields to plot. The data is retrieved from the server at run time of the application in \texttt{Api.js}.
+This store is used for creating the chart. The chart expects a jsonStore with data and fields to plot. The data is retrieved from the server at run time of the application in \texttt{Api.js} and set in the store by the setData function.
 \end{itemize}
-\subsection{Layouts}
+\subsection{Layouts and xtype}
+Layouts in sencha touch provide a structure for placing components and are fairly easy to create. A layout keyword is placed in the Container component which functions as a container for other components. That way the developer can build a hierarchical view. Child components are placed in the items key array. These can be any component the developer likes. A layout in this application is used ones in \url{app/view/main.js}. 
 
-\subsection{Controller}
+\begin{figure}[H]
+\center
+\includegraphics[scale=1]{ui/docktop.png}
+\caption{layout with hbox}
+\label{fig:layout}
+\end{figure}
+
+Next to the type layout hbox also vbox exists, which divides the viewport vertically.  The xtype keyword tells sencha touch which component to place in the container. Flex 1 or flex 2 tells the container on which side of the container the components needs to situated. See \ref{fig:layout_impl} for how these are used to as a reference. The image of figure \ref{fig:layout} is implemented in figure \ref{fig:layout_impl}.
+
+\begin{figure}[H]
+\begin{lstlisting}
+Ext.define("app.view.Main", {
+    extend: 'Ext.Container',
+    config: {
+        title: "Simulation Browser",
+        layout: "hbox",
+        fullscreen: true,
+        items: [
+        {
+            xtype: 'listpanel',
+            flex: 1,
+        },
+        {    
+            xtype: 'simulationpanel',
+            flex: 2
+        }],
+    }
+});
+\end{lstlisting}
+\caption{Layout in \texttt{app/view/Main.js}}
+\label{fig:layout_impl}
+\end{figure}
+The xtype keyword matches the keyword out of the component where the xtype is defined. It serves as shortcut to the full component. Components that are created can get a unique xtype value and be referred to by other components to call functions or for displaying  of that component, this is widely used throughout the application.
+
+\subsection{Controllers}
+Controllers preform the logic in the application. They react on events, fired by the elements in the view. In sencha touch the events are configured in the control configuration. References to components in the view are created in the ref attribute in the config attribute. A reference may consist of a css selector or an xtype name, or both. References are used in the functions below the config field, \texttt{this.getMap()}. Controllers are declared like the following.
+\begin{lstlisting}
+Ext.define('app.controller.Main', {
+	extend: 'Ext.app.Controller',
+	config: {
+		refs: {  
+			map : Map      
+		}
+		
+		control:{
+			#button: {
+				tap: tappedButton
+			}
+		}        
+   }   
+	tappedButton: function(){
+		this.getMap().dofunction();
+	}
+});
+\end{lstlisting}
+In the application two controllers exists, a \texttt{app/controller/main.js} controller for handling logic for the general view and simulations. Another controller named \\
+\texttt{app/controller/chartController.js} is used for dealing with the chart information. Both make use of loading stores, getting a component to be pushed in to the view when the right event is passed. And when the view needs more data than stores can get, the controllers make use of the \texttt{app/Api.js}. 
+\todo{change name of main controller in to simulation controller}
 
 \subsection{Map}
+The map object in sencha touch 2 is created by creating a view and extending Ext.map. Since Sencha Touch 2 became available Google Maps is a build-in type. Because of the way the map is really an instance of the google maps api. I decided to let the Map view extend that api, and let the controller call those functions just like it would when it talks to the google maps api. This choice is made not only done for convenience but the ability to create multiple controllers to talk to the same map would be a bigger advantage than placing this in a separate controller. Also by initiating a map that is based on another tiled map object like open street view that uses the same function names. A quick change between different maps could be established. 
 
-\subsection{Creating Mockups in Sencha}
-
+A map object is declared like the following.
+\begin{lstlisting}{Ext.Map},label={lst:Map}]
+Ext.define('app.view.Map', {
+	extend: "Ext.Map",
+		id: 'mapa',
+		xtype: 'SimulationMap',
+	config: {
+		useLoadMask : true,
+		mapOptions : 
+		}
+	},
+	
+	func: function(){
+	}
+});	
+\end{lstlisting}
+In the application the Map object extends and uses the Google API. Overlays are used for placing simulations images on the map. When the maprender event is fired, it returns a reference to the Google API and Ext Map component. The Google Maps API specified in the documentation is used for creating overlays and adding markers on a certain Lat, Lng. The most important feature is initializing the first image by calling \texttt{createOverlayImage} function when a simulation is tapped in the list and creating overlays for the rest of the timesteps. These images are stepped through in the nextImage and prevImage function. Which are controlled when a button in the control panel is tapped. 
 \section{Scalability}
 The server \url{sangkil.science.uva.nl} is tested on scalability. An important part to notice when testing a server is how well it performs concerning how much peers it can serve and how the response time will change if the number of clients increases. By looking at the amount of clients that a server can serve is what scalability stands for. So how do the values change when connections, and therefore client numbers, start to rise.
 
-To test the server, all bottlenecks at client side have to be brought done to an minimum. \url{mangkus.science.uva.nl} is the address of another server with the same specifications. The mangkus server is situated in the same server rack as sangkil. The TCP/IP package do not have to travel around the world in order to reach the destination, so the response time when not in a stress test could be in optimum state. 
+To test the server, all bottlenecks at client side have to be brought down to a minimum. \url{mangkus.science.uva.nl} is the address of another server with the same specifications. The mangkus server is situated in the same server rack as sangkil. The TCP/IP packages do not have to travel around the world in order to reach the destination, so the response time when not in a stress test could be in optimum state. 
 
 \subsection{Testing}
 So testing the sangkil server is done from the server mangkus. A tool siege is used for testing the server, previously discussed in section \ref{sec:scalability} in part one.
 \begin{lstlisting}
 $ siege -i -b -f file.txt -c $1 -r $2
+-i		randomly picking request out of file.txt
+-b		no delay between the next request a client does
+-c		concurrent processes
+-r		number of repetitions
 \end{lstlisting}
- Testing is done by changing the concurrent processes and keeping the repetitions the same, or the other way around. That way a little grid search can be preformed to find a weakness in the server. The results of this search are discussed in the following sections.
+
+Testing is done by changing the concurrent processes and keeping the repetitions the same, or the other way around. That way a little grid search can be preformed to find a weakness in the server. The results of this search are discussed in the following sections. 
 
 \subsection{Results and Analysis}
+In the first series of tests the repetitions number is the same and the amount of concurrent clients is changed. The amount of concurrency is displayed on the x-axis. Note that it could be that a concurrent value that is tested is not been reached by the server. Concurrency means the amount of clients averagely served by the server for testing at a certain concurrent number. So 500 clients with 10 repetitions could mean that the server does not reach a concurrent level of 500 clients. The reason is that the requests happens so fast that their is no point in time the server handles the full amount of clients that are requesting data.
+\begin{figure}[H]
+\center
+\includegraphics[scale=0.6]{server/siege_10r.png}
+\caption{10 repetitions, concurrency 10, 50, 100, 200, 300, 400, 500}
+\label{fig:10r}
+\end{figure}
+See top left graph of figure \ref{fig:10r}. These results suggests that with 10 repetitions and a rising number of concurrent clients the response time increases some what linearly.  100 more clients can be roughly the same as an increase of response time of 0.1/0.2 seconds. 
+
+The throughput (top right figure \ref{fig:10r}) rises when the number of clients rises. This is a good sign when talking about scalability. When the throughput rises when client numbers are rising it means that it can transfer more data when more clients are requesting data. 
+
+The transfer rate is the average number of requests that are handled per second. This rate does increase when more clients are requesting url's but it does not go up linearly.
+
+The availability (right bottom graph) drops when concurrency increases. But it does not drop a lot. That's a positive and negative finding. When the amount of users starts to rise the availability needs to be 100\%. A drop of 0.4\% means that roughly 20 requests ($5000 * 0.004$) out of the 5000 requests in total, would not be answered. 
+
+\vspace{0.5cm}
+\begin{figure}[H]
+\center
+\includegraphics[scale=0.6]{server/siege_50r.png}
+\caption{50 repetitions, concurrency 10, 50, 100, 200, 300, 400, 500}
+\end{figure}
+The same conclusion can be drawn concerning the response time. Notice that the linear increase is roughly the same, but the concurrent clients are now more than the previous test.
+The Throughput is higher than the previous test. This means that the server's bandwidth sends more MB/s when more clients are requesting data. It would be interesting to see if this number would climb further.
+\begin{figure}[H]
+\center
+\includegraphics[scale=0.6]{server/siege_100r.png}
+\caption{100 repetitions, concurrency 10, 50, 100, 200, 300, 400, 500}
+\end{figure}
+
+\begin{figure}[H]
+\center
+\includegraphics[scale=0.6]{server/siege_200r.png}
+\caption{200 repetitions, concurrency 10, 50, 100, 200, 300, 400, 500}
+\end{figure}
+
+It does not seem to matter how much repetitions are preformed by a certain number of concurrent clients. This suggests that it could mean that only weak spot of the server concerning the response time depends on how much clients at a time are demanding a request. It looks like it does not matter how much repetitions those clients preform, it has no influence on the response time.
+The throughput does rise when the amount of repetitions go up. 
+
+\section{Deployment}
+For installing the application to a device the sencha's command line tool is used. In the root folder \texttt{packager.json} can be found. In this file the field for building the application has to changed. See below, listing \ref{lst:packager}.
+\begin{lstlisting}[caption={packager.json},label={lst:packager}]
+	/**
+	 * @cfg {String} platform
+	 * @required
+	 * This is the platform where you will be running your application.
+	 * Available options are:
+	 *  - iOSSimulator
+	 *  - iOS
+	 *  - Android
+	 *  - AndroidEmulator
+	"platform":"iOS",
+\end{lstlisting}
+Now by executing the command.
+\label{appnative}
+\begin{lstlisting}[caption={command to build native},label={lst:buildnative}]
+$ sencha app build native
+\end{lstlisting}
+The application is packaged. All the javascript code's dependencies are resolved, minified and placed in the \texttt{build} folder. The \texttt{build} contains two folders. One \texttt{package} and one \texttt{native} folder. In the \texttt{package} folder the developer can see what result of the minification is, and can also test in the browser if everything still works. The native files are placed in the \texttt{native} folder. When executing for Android the applications extension will be a .apk\todo{ref to apk?}, for iOS it will be a .app file.  The file can be transferred to the device and installed. On Android it's easier that iOS. When building for Android the result of the command(listing \ref{lst:buildnative}) runs the application when done with packaging. When building for iOS, sencha creates a .app file that can be transferred to the device by itunes\footnote{How to do this can be found in the video ``Getting started'' at: \url{http://docs.sencha.com/touch/2-0/\#!/guide/getting\_started}}.
+
+The deployment can be distributed to other devices. On Android devices it's possible to install .apk files apart from the Market / Play Store. For iOS this is more difficult. When a developer is in the possession of an Apple's developer account the UUID(Unique Identifier) needs to be added to the provisioning portal. This grants the device to install applications that are also registered by the developers account. \todo{apple provisioning}.
+
+\section{Does Sencha Touch suffice}
+Sencha Touch 2 is used in this project for the cross-platform capabilities. One of the research question was to find the best tool to meet the requirement of cross-platform. Let's start with the fact that everything works both on a Asus tf300t Transformer Pad with Android , iPad 2 with iOS 5.1.1 and the browsers Safari and Chrome. Installing an application to the device involves For testing this application on the iPad 2 jailbreaking had to take place. How to jailbreak the iPad to is desribed here \url{http://greenpois0n.com/}. For enabling tp install without a developers account apps without ``Appsync'' has to be installed.\footnote{\url{http://www.ijailbreak.com/cydia/install-cracked-apps-ios-5-0-1-with-appsync-installous/}}
 
 
 \section{Conclusion}
