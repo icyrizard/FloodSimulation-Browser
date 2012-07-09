@@ -97,7 +97,7 @@ Ext.define('app.view.Map', {
 	// 'http://sangkil.science.uva.nl:8003/drfsm/199419691/visualization/level/map/600.png'
 	// 'http://sangkil.science.uva.nl:8003/drfsm/207/visualization/level/map/300.png' ;
 	/*create overlays with area_id, bounds and timesteps
-	 * Bounds: array(4) 
+	 * Bounds:  array(4) 
 	*/
 	createOverlayImage: function(bounds, area_id, timesteps, simulationType) {
 		var me = this;
@@ -118,13 +118,10 @@ Ext.define('app.view.Map', {
 		this.bounds = bounds;
 		if (this.overlayImages.length > 1)
 			this.removeImages();
-		//var image = 'http://sangkil.science.uva.nl:8003/lsm/' + area_id +'/visualization/level/map/400.png';	
 		for (i in timesteps)
 		{
-			//var image = 'http://sangkil.science.uva.nl:8003/drfsm/' + area_id + '/visualization/level/map/' + timesteps[i] + '.png';
 			var image = new Image();
 			image.src = url + timesteps[i] + '.png';
-			console.log(image.src);
 			this.overlayImages.push(new google.maps.GroundOverlay(image.src, this.imageBounds));
 		}
 

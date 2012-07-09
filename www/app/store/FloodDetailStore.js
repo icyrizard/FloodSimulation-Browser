@@ -5,7 +5,6 @@ Ext.define('app.store.FloodDetailStore', {
 
 	config: {
 		autoLoad: true,
-		model: 'app.model.SimulationDetails',
 		fields: ['name', 'center', 'corners', 'size', 'extents', 'visbounds', 'vissize', 'projection', 'dikes'],
 		proxy: {
 			type: 'rest',

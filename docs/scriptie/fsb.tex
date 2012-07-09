@@ -105,13 +105,16 @@ Ext.application({
 
 \subsection{Requirements Analysis}
 \label{sec:requirements}
-Requirement analysis for this project is an inventory making of tasks that the application has to be able to perform. I.e., the requirements on the application, as opposed to the requirements that the application needs to run. These requirements are as follows. First, the users need to be able to see different simulations and be able to distinguish where certain simulations are located. By starting with displaying the locations that are available would be the starting point where the users can start interacting with the application. For displaying the locations, a request to server is needed to for displaying those. 
+Requirement analysis for this project is an inventory making of tasks that the application has to be able to perform. I.e., the requirements on the application, as opposed to the requirements that the application needs to run. These requirements are as follows. First, the users need to be able to see different simulations and be able to distinguish where certain simulations are located. By starting with displaying the locations that are available would be the starting point where the users can start interacting with the application. For displaying the locations, a request to server is needed to for displaying those.
+\begin{description}
+\item \textbf{List}
 The locations are mostly named by cities. The corresponding simulations have to be retrieved from the server and displayed in a list. Those list-items are the individual simulations, so it makes sense that when tapping on a list item, the simulation of the related item is going to be displayed. The form of these simulations are important. The simulations are in the form of images. These images are images from above and can be placed on the map. In order to display these images, there has to be a map available. Next, the data of where to place the image is needed for creating a map. This data is located in the simulation data of the city. In part two of this document the exact implementation can be found.
-
+\item \textbf{Map}
+\item \textbf{Controls}
 The flood simulations are in the form of multiple imagery that is placed on the map. A requirement for these simulation images is that the user can control which image it wants to see in a chronological way, of course the user does not decide what the sequence is going to be. This requirement results in the need for controls. These controls need to be displayed somewhere in the viewport when the user has tapped on a list item of a simulation.
-
-The flood simulations contain information about how much cubic meters of water is present in a certain timestep in a specific location. The simulations are divided in zones and labelled with an id. So a simulation contains information, this information needs to be displayed in such a way that it can be interpreted by the user. This would require a chart of some sort with the timesteps on the x-axis and some other value like volume on the y-axis. To determine the zone which contains the information, a latitude and longitude information is needed again. How this is done is described in part 2 of this document.
-
+\item \textbf{Chart}
+The flood simulations contain information about how much cubic meters of water is present in a certain timestep in a specific location. The simulations are divided in zones and labelled with an id. So a simulation contains information, this information needs to be displayed in such a way that it can be interpreted by the user. This would require a chart of some sort with the timesteps on the x-axis and some other value like volume on the y-axis. To determine the zone which contains the information, a latitude and longitude information is needed again. How this is done is described in part \ref{part:implementation} of this document.
+\end{description}
 \subsection{App Design} 
 \label{sec:appdesign}
 The application will be used on tablets so that a lot of space can be used. On tablets the screen is larger than on mobile phones. Which can result in a bigger travel distance of the user's hands. The GUI design has to be built with the considerations of the interaction capability of the users. For instance, unlike with mobile phones, according to Clark(2012) a leading designer in creating multi-touch applications, people tend to hold a tablet on the top halve of the tablet when holding with both hands, Figure \ref{fig:perimeter}. The focus of the user is going from top to bottom. The top elements of the application will draw the first attention of the user. That's why Clark(2012) advises to place the important controls on the top half of the screen. The components that are important have to be placed in the left or right top of the screen, concerning the perimeter of the thumbs, Figure \ref{fig:perimeter}. The F.S.B.'s design heeds Clark's advice.
@@ -171,12 +174,12 @@ With this data new insight can be provided. By increasing the number of simultan
 %This project will ultimately result in a cross-platform application that can be used by the public or government to gain information %about a certain area.
 
 \section*{End of Part one}
-Part \ref{part:Discovering} describes the questions and some answers on what the approach of tackling this problem is going to be. For an understanding of what global problems are faced in this project, it will be sufficient to have read part one. Part \ref{part:implementation} holds information about how the implementation is made, the problems that where discovered in process, results are displayed and discussed and ultimately ending with the conclusion of this project. 
+Part \ref{part:Discovering} describes the questions and some answers on what the approach of tackling this problem is going to be. For an understanding of what global problems are faced in this project, it will be sufficient to have read part one. Part \ref{part:implementation} holds information about how the implementation is made, the problems that where discovered in process, results are displayed and discussed and ultimately ending with the conclusion of this project. Note that filenames are addressed in this part. The code can be found on github, \url{git@github.com:icyrizard/FloodSimulation-Browser.git}
 
 \part{Implementation Details}
 \label{part:implementation}
 \section{Server API}
-A clear understanding of which request have to be done in order to gain the right information is needed first before beginning with any implementation. The full api is referenced in the appendix \ref{appendixA}. The appendix is referenced and used for explanations in the following sections.
+A clear understanding of which request have to be done in order to gain the right information is needed first before beginning with any implementation. The full api is referenced in the appendix \ref{sec:area_api}. The appendix is referenced and used for explanations in the following sections.
 
 \section{Sencha Touch 2}
 The final choice for the development of this application was made in favor of Sencha Touch 2.  Sencha Touch provides cross-platform capability and is based on web technology. Although Sencha Touch comes with a unique syntax, based on Ext (reference!!), the content, look and logic is based on web languages.
@@ -186,6 +189,7 @@ Part \ref{part:Discovering} section \ref{sec:appdesign} the design of a touch ap
 Sencha Touch is based on MVC with the addition of stores. Stores can hold information of whatever the application needs, more about this in a moment. The model is used for the communication with the database, the controller stands between the model and the view. The controller can steer between views and handle logic. The application has no direct need of models, since there is no database that has to be updated. Stores can handle enough communication between the server and the application. 
 
 \subsection{Stores and Lists}
+\label{sec:storelist}
 The stores in this application are prominently used for filling the lists. In particular the cities list en \texttt{simulationslist}. A list object is defined as the follows.
 
 \begin{figure}[H]
@@ -213,18 +217,21 @@ Ext.create('Ext.List', {
 The store is automatically updated when the values change on the server. When something changes in the store, the list is also automatically updated. The specified fields are available in the list, containing the name of the field between brackets \texttt{\{ \}}, the field name of record $n$ is placed in list item $n$. Five stores are present in the application. \texttt{SimulationStore.js}, \texttt{SimulationDetailStore.js}, \texttt{LsmStore.js}, \texttt{SimulationsSummary.js}, \texttt{ChartStore.js}. 
 \begin{itemize}
 \item SimulationStore.js \\
-Is sync with \url{http://sangkil.science.uva.nl:8003/area/list.json} on the server. Locally the store is in sync with the view \texttt{List.js}. Basically this store returns information of the simulation locations that are available. The most important data are the name, center, visbounds and area\_id. With the name for displaying in the list-item; the center for changing the map's center to the location of the simulation and the visbounds are used for the image overlay. When the user taps on a location, the data of longitude and latitude information is used to change the center of the map and push a new list over the current list, since a tap event on a list-item returns the tapped item and the store used for creating this list. The second list holds information about which all the simulations available.
+\texttt{fields: ['name', 'corners', 'visbounds', 'area\_id', 'center']} \\
+Is in sync with \url{http://sangkil.science.uva.nl:8003/area/list.json} on the server. Locally the store is in sync with the view \texttt{List.js}. Basically this store returns information of the simulation locations that are available. The most important data are the name, center, visbounds and area\_id. With the name for displaying in the list-item; the center for changing the map's center to the location of the simulation and the visbounds are used for the image overlay. The visbounds are used to scale the image on the tiled map, it contains the lat,lng information of the south west and north east locations of the square. When the user taps on a list-item, the data of longitude and latitude information is used to change the center of the map and push a new list over the current list, since a tap event on a list-item returns the tapped item and the store used for creating this list. The second list holds information about which all the simulations available.
 \item FloodDetailStore.js \\
+\texttt{Fields: ['name', 'center', 'corners', 'size', 'extents', 'visbounds', 'vissize', 'projection', 'dikes']} \\
 Is in sync with multiple urls, \url{http://sangkil.science.uva.nl:8003/area/<area\_id>/info.json}, where the area is the area that is selected in List.js. This store adds information of dikes. The rest of the data is already present in the SimulationStore.js. The dikes consists of eight values, which are 4 corners with a latitude and longitude value. This means that a polygon can be formed from these four locations and displayed on the map.
 \item LsmDetailStore.js \\
+\texttt{Fields: ['area\_id', 'test\_id', 'submitted']} \\
 This store holds information of the population dynamics, meaning how the evacuation of the individuals will proceed. 
 \item SimulationSummary.js \\
-Syncs with \url{http://sangkil.science.uva.nl:8003/drfsm/list.json?summary}. This returns a json string that holds a list of all the simulations.Luckily a store can be filtered on a certain value. All the simulations have an area\_id specified. The store is filtered on the area\_id selected in List.js. Note that filters stay present, so before doing anything the store has to be cleared of all the filters.
+Syncs with \url{http://sangkil.science.uva.nl:8003/drfsm/list.json?summary}. This returns a json string that holds a list of all the simulations. A store can be filtered on a certain value. All the simulations have an area\_id specified. The store is filtered on the area\_id selected in List.js. Note that filters stay present, so before doing anything the store has to be cleared of all the filters.
 \item ChartStore.js \\
 This store is used for creating the chart. The chart expects a jsonStore with data and fields to plot. The data is retrieved from the server at run time of the application in \texttt{Api.js} and set in the store by the setData function.
 \end{itemize}
 \subsection{Layouts and xtype}
-Layouts in sencha touch provide a structure for placing components and are fairly easy to create. A layout keyword is placed in the Container component which functions as a container for other components. That way the developer can build a hierarchical view. Child components are placed in the items key array. These can be any component the developer likes. A layout in this application is used ones in \url{app/view/main.js}. 
+Layouts in Sencha Touch provide a structure for placing components and are fairly easy to create. A layout keyword is placed in the Container component which functions as a container for other components. That way the developer can build a hierarchical view. Child components are placed in the items key array. These can be any component the developer likes. A layout in this application is used ones in \url{app/view/main.js}. 
 
 \begin{figure}[H]
 \center
@@ -233,7 +240,7 @@ Layouts in sencha touch provide a structure for placing components and are fairl
 \label{fig:layout}
 \end{figure}
 
-Next to the type layout hbox also vbox exists, which divides the viewport vertically.  The xtype keyword tells sencha touch which component to place in the container. Flex 1 or flex 2 tells the container on which side of the container the components needs to situated. See \ref{fig:layout_impl} for how these are used to as a reference. The image of figure \ref{fig:layout} is implemented in figure \ref{fig:layout_impl}.
+Next to the type layout hbox also vbox exists, which divides the viewport vertically.  The xtype keyword tells Sencha Touch which component to place in the container. Flex 1 or flex 2 tells the container on which side of the container the components needs to situated. See \ref{fig:layout_impl} for how these are used to as a reference. The image of figure \ref{fig:layout} is implemented in figure \ref{fig:layout_impl}.
 
 \begin{figure}[H]
 \begin{lstlisting}
@@ -262,7 +269,7 @@ The xtype keyword matches the keyword out of the component where the xtype is de
  
 
 \subsection{Controllers}
-Controllers preform the logic in the application. They react on events, fired by the elements in the view. In sencha touch the events are configured in the control configuration. References to components in the view are created in the ref attribute in the config attribute. A reference may consist of a css selector or an xtype name, or both. References are used in the functions below the config field, \texttt{this.getMap()}. Controllers are declared like the following.
+Controllers perform the logic in the application. They react on events, fired by the elements in the view. In Sencha Touch the events are configured in the control configuration. References to components in the view are created in the ref attribute in the config attribute. A reference may consist of a css selector or an xtype name, or both. References are used in the functions below the config field, \texttt{this.getMap()}. Controllers are declared like the following.
 \begin{lstlisting}
 Ext.define('app.controller.Main', {
 	extend: 'Ext.app.Controller',
@@ -287,7 +294,7 @@ In the application two controllers exists, a \texttt{app/controller/main.js} con
 \todo{change name of main controller in to simulation controller}
 
 \subsection{Map}
-The map object in sencha touch 2 is created by creating a view and extending Ext.map. Since Sencha Touch 2 became available Google Maps is a build-in type. Because of the way the map is really an instance of the google maps api. I decided to let the Map view extend that api, and let the controller call those functions just like it would when it talks to the google maps api. This choice is made not only done for convenience but the ability to create multiple controllers to talk to the same map would be a bigger advantage than placing this in a separate controller. Also by initiating a map that is based on another tiled map object like open street view that uses the same function names. A quick change between different maps could be established. 
+The map object in Sencha Touch 2 is created by creating a view and extending Ext.map. Since Sencha Touch 2 became available Google Maps is a build-in type. Because of the way the map is really an instance of the google maps api. I decided to let the Map view extend that api, and let the controller call those functions just like it would when it talks to the google maps api. This choice is made not only done for convenience but the ability to create multiple controllers to talk to the same map would be a bigger advantage than placing this in a separate controller. Also by initiating a map that is based on another tiled map object like open street view that uses the same function names. A quick change between different maps could be established. 
 
 A map object is declared like the following.
 \begin{lstlisting}{Ext.Map},label={lst:Map}]
@@ -308,20 +315,67 @@ Ext.define('app.view.Map', {
 In the application the Map object extends and uses the Google API. Overlays are used for placing simulations images on the map. When the maprender event is fired, it returns a reference to the Google API and Ext Map component. The Google Maps API specified in the documentation is used for creating overlays and adding markers on a certain Lat, Lng. The most important feature is initializing the first image by calling \texttt{createOverlayImage} function when a simulation is tapped in the list and creating overlays for the rest of the timesteps. These images are stepped through in the nextImage and prevImage function. Which are controlled when a button in the control panel is tapped.
 
 \subsection{Controls}
-The controls to change the simulation step when a simulation is selected, appears in the right top of the screen. The component has four controls; forward, backwards, play forward, play backwards. Because of the fact that the controls take space of the map, the background of the controls is transparent for creating the feeling of more space.
+The controls to change the simulation step when a simulation is selected, appears in the right top of the screen. The component has four controls; forward, backwards, play forward, play backwards. Because off the fact that the controls take space of the map, the background of the controls is transparent for creating the feeling of more space.
 \begin{figure}[H]
 \center
 \includegraphics[scale=0.7]{ui/controls.png}
 \caption{Controls}
 \label{fig:controls}
 \end{figure}
-By tapping on the upper button, the next image is placed on the map. The right button plays through the simulation automatically. The left and bottom button both do the opposite. Also a pause button stops calling the next or prevImage function out the map object. As previously discussed the controls appear in the right top of the screen. If the user need the controls on the bottom part of the screen, the user can also tap and drag the controls. Because the space of the tablet is limited the user can make the decision of placing the controls somewhere else, note that the controls are constrained to the right side of the screen. The reason is that the controls are meant to be used by the user's right hand.
+By tapping on the upper button, the next image is placed on the map. The right button plays through the simulation automatically. The left and bottom button both do the opposite. Also a pause button stops calling the next or prevImage function out the map object. As previously discussed, the controls appear in the right top of the screen. If the user needs the controls on the bottom part of the screen, the user can also tap and drag the controls. Because the space of the tablet is limited the user can make the decision of placing the controls somewhere else, note that the controls are constrained to the right side of the screen. The reason is that the controls are meant to be used by the user's right hand.
  
 \subsection{Chart Display}
-The chart data is the  
+The chart data is displayed when the user taps on a simulation image on the map. The google maps API supports the click event, the event has a payload where the latitude and longitude data can be obtained. A marker is put down at that location and the API is called to retrieve the izid of the tapped lat,lng. When the izid is known, a second request has to be done to obtain the corresponding .csv file. See listing \ref{lst:csvrequest} for the requests.
+
+\begin{lstlisting}[caption={requests for flood data}, label={lst:csvrequests}]
+/* obtain izid */
+http://sangkil.science.uva.nl:8003/area/<area_id>/izid.json?latlng=<lat>,<lng> 
+/* obtain csv file */
+http://sangkil.science.uva.nl:8003/drfsm/<test_id>/results/izid/<izid>.csv 
+\end{lstlisting}
  
+A response looks like the following.
+\begin{lstlisting}[caption={csv response}, label={lst:csvresponse}]
+time,izid,volume,level,dischargex,dischargey
+600,5022,838.082,-4.841897,0.0,0.0
+900,5022,852.3604,-4.835319,356.0,0.001675895
+...
+\end{lstlisting}
+The first value is the time step of the simulation, the third is the volume. The chart will display the volume (in cubic meters) on the y-axis and the time steps on the x-axis. By simply splitting on a "," and placing the value at position 0 and position 2 of every line except line 0, in a separate array and feed in to \texttt{ChartStore.js}, as discribed in section \ref{sec:storelist}, and plot the data.
+
+The plot is made with Sencha Chart. The chart has to be rendered to a certain container. In application this is a Ext.Panel, that supports the showBy() function. Which means that the panel with the chart can be placed in the view at a certain position. In the items array, xytpe: 'chart' is placed, Sencha now knows what kind of component to place inside the Ext.Panel. The chart itself has a couple of fields that are necessary in order to plot the data. First of all the name of the jsonStore,
+
+
+\begin{lstlisting}[caption=Chart component app/view/Chart.js, label="chartcomponent" ]
+Ext.define('app.view.Chart', {
+	extend: 'Ext.Panel',
+    id: 'flood-chart',
+	xtype: 'floodChart',
+    requires: ['Ext.data.Store'],
+    config: [{
+    	items: [{
+			xtype: 'chart',
+			store: 'chartStore',
+			axes: [
+				{
+					type: 'Numeric',
+					position: 'left',
+					fields: ['volume']
+				},
+				{
+					type: 'Category',
+					position: 'bottom',
+					fields: ['Time Steps']
+				}			
+		]
+    	}]
+    }
+}):
+\end{lstlisting}
+
+Because the chart can be fairly large, this component is also made draggable.
 \section{Scalability}
-The server \url{sangkil.science.uva.nl} is tested on scalability. An important part to notice when testing a server is how well it performs concerning how much peers it can serve and how the response time will change if the number of clients increases. By looking at the amount of clients that a server can serve is what scalability stands for. So how do the values change when connections, and therefore client numbers, start to rise.
+The server \url{sangkil.science.uva.nl} is tested on scalability. An important part to notice when testing a server is how well it performs depending on the number of peers it is serving. By looking at how the response time will change if the number of clients increases, can tell how the rate of scalability. The number of clients a server can serve simultaneously is of course the number 1 issue in scalability. So how do the values change when connections, and therefore client numbers, start to rise.
 
 To test the server, all bottlenecks at client side have to be brought down to a minimum. \url{mangkus.science.uva.nl} is the address of another server with the same specifications. The mangkus server is situated in the same server rack as sangkil. The TCP/IP packages do not have to travel around the world in order to reach the destination, so the response time when not in a stress test could be in optimum state. 
 
@@ -359,8 +413,8 @@ The availability (right bottom graph) drops when concurrency increases. But it d
 \includegraphics[scale=0.6]{server/siege_50r.png}
 \caption{50 repetitions, concurrency 10, 50, 100, 200, 300, 400, 500}
 \end{figure}
-The same conclusion can be drawn concerning the response time. Notice that the linear increase is roughly the same, but the concurrent clients are now more than the previous test.
-The Throughput is higher than the previous test. This means that the server's bandwidth sends more MB/s when more clients are requesting data. It would be interesting to see if this number would climb further.
+The same conclusion can be drawn concerning the response time. Notice that the linear increase is roughly the same, but the concurrent clients are now more than in the previous test.
+The Throughput is higher than in the previous test. This means that the server's bandwidth sends more MB/s when more clients are requesting data. It would be interesting to see if this number would climb further.
 \begin{figure}[H]
 \center
 \includegraphics[scale=0.6]{server/siege_100r.png}
@@ -375,8 +429,6 @@ The Throughput is higher than the previous test. This means that the server's ba
 
 It does not seem to matter how much repetitions are preformed by a certain number of concurrent clients. This suggests that it could mean that only weak spot of the server concerning the response time depends on how much clients at a time are demanding a request. It looks like it does not matter how much repetitions those clients preform, it has no influence on the response time.
 The throughput does rise when the amount of repetitions go up. 
-
-
 
 \section{Deployment}
 For installing the application to a device the sencha's command line tool is used. In the root folder \texttt{packager.json} can be found. In this file the field for building the application has to changed. See below, listing \ref{lst:packager}.
@@ -397,19 +449,31 @@ Now by executing the command.
 \begin{lstlisting}[caption={command to build native},label={lst:buildnative}]
 $ sencha app build native
 \end{lstlisting}
-The application is packaged. All the javascript code's dependencies are resolved, minified and placed in the \texttt{build} folder. The \texttt{build} contains two folders. One \texttt{package} and one \texttt{native} folder. In the \texttt{package} folder the developer can see what result of the minification is, and can also test in the browser if everything still works. The native files are placed in the \texttt{native} folder. When executing for Android the applications extension will be a .apk\todo{ref to apk?}, for iOS it will be a .app file.  The file can be transferred to the device and installed. On Android it's easier that iOS. When building for Android the result of the command(listing \ref{lst:buildnative}) runs the application when done with packaging. When building for iOS, sencha creates a .app file that can be transferred to the device by itunes\footnote{How to do this can be found in the video ``Getting started'' at: \url{http://docs.sencha.com/touch/2-0/\#!/guide/getting\_started}}.
+The application is packaged. All the javascript code's dependencies are resolved, minified and placed in the \texttt{build} folder. The \texttt{build} contains two folders. One \texttt{package} and one \texttt{native} folder. In the \texttt{package} folder the developer can see what result of the minification is, and can also test in the browser if everything still works. The native files are placed in the \texttt{native} folder. When executing for Android the applications extension will be a .apk\todo{ref to apk?}, for iOS it will be a .app file.  The file can be transferred to the device and installed. On Android it's easier that iOS. When building for Android the result of the command(listing \ref{lst:buildnative}) runs the application when done with packaging. When building for iOS, sencha creates a .app file that can be transferred to the device by Itunes\footnote{How to do this can be found in the video ``Getting started'' at: \url{http://docs.sencha.com/touch/2-0/\#!/guide/getting\_started}}.
 
-The deployment can be distributed to other devices. On Android devices it's possible to install .apk files apart from the Market / Play Store. For iOS this is more difficult. When a developer is in the possession of an Apple's developer account the UUID(Unique Identifier) needs to be added to the provisioning portal. This grants the device to install applications that are also registered by the developers account. \todo{apple provisioning}.
+The deployment can be distributed to other devices. On Android devices it's possible to install .apk files directly to the device from the command line. The generated .apk file can also be distributed to other Android devices and can be installed without the use of the command line tool of Sencha Touch.
+For iOS this is more difficult. When a developer is in the possession of an Apple's developer account the UUID(Unique Identifier) needs to be added to the provisioning portal. This grants the device to install applications that are also registered by the developers account. \todo{apple provisioning}. If the application only needs to tested on iOS it is possible to jailbreak the iPad without obtaining an Apple's developer account. How to jailbreak the iPad to is desribed here \url{http://greenpois0n.com/}. For enabling to install without a developers account apps without ``Appsync'' has to be installed.\footnote{\url{http://www.ijailbreak.com/cydia/install-cracked-apps-ios-5-0-1-with-appsync-installous/}}
 
 \section{Does Sencha Touch suffice}
-Sencha Touch 2 is used in this project for the cross-platform capabilities. One of the research question was to find the best tool to meet the requirement of cross-platform. Let's start with the fact that everything works both on a Asus tf300t Transformer Pad with Android , iPad 2 with iOS 5.1.1 and the browsers Safari and Chrome. Installing an application to the device involves For testing this application on the iPad 2 jailbreaking had to take place. How to jailbreak the iPad to is desribed here \url{http://greenpois0n.com/}. For enabling tp install without a developers account apps without ``Appsync'' has to be installed.\footnote{\url{http://www.ijailbreak.com/cydia/install-cracked-apps-ios-5-0-1-with-appsync-installous/}}
+\label{sec:suffice}
+Sencha Touch 2 is used in this project for the cross-platform capabilities. One of the research question was to find the best tool to meet the requirement of cross-platform. Let's start with the fact that everything works both on a Asus tf300t Transformer Pad with Android 4.0.3, iPad 2 with iOS 5.1.1 and the browsers Safari and Chrome. In Safari and Chrome the application runs smooth, all the animations and tap and drag are fast. The frame-rate of the animation stay the same high frame rate. Also on the iPad 2, everything is smooth and fast and no problems occurred. Unfortunately the application on the Asus tf300t runs very slow. Scrolling through a list runs slow, changing the menu from the cities list to the simulations list runs slow. Even the google maps object which is has nothing to do with the implementation, runs slow. The frame rate of an animation is far less that on the iPad 2 and for navigating through the map the same difference in speed is big. 
 
-
+An explanation for this can only be guessed. The first could be that the resolution of the Asus tf300t is higher than the iPad 2. A 1280 * 800 resolution for the tf300t and a smaller 1024 * 768. That is a difference 1024000 - 786432 = 237568 pixels. 
+Because of the fact that both webkit browsers have similarly Javascript engines, Nitro on iOS and V8 on Android, the only thing that could effect the performance so much, would suggest a difference in another part of the rendering process. iOS renders CSS animations via the GPU of the Phone. Although the new Android 4.0.3 supports hardware acceleration, it also has to be utilized by the browser. If it is the case and Android 4.0.3 does not use the GPU for animations and iOS does, i could explain the drastic difference in speed. 
 
 \section{Conclusion}
+This thesis has described the process and requirements to reach the goal of a cross-platform application with a Javascript framework Sencha Touch 2. Almost all the problems have been tackled, the problems of the picking the best suitable tools, the app design, the communication with the API, selecting simulations and the ability to scroll through them, creating image overlays of the images delivered by the API, creating a chart of a certain area when the map is tapped and deploying it to both Android and iPad. 
+Although the final performance of Sencha Touch 2 on Android could be considered the as biggest drawback of this project, the application does work on Android. If it is due to a difference in resolution of the screen or an implementation of the native Android browser, meaning the rendering of CSS animation via the GPU, the difference in performance is their and cannot be denied. 
+The server scalability did good for a server that exists out of one physical system. When the number of clients rise to 500, the average response time rises above 1 second, which is acceptable. Judging from the fact that the response time rises linearly with the amount of clients, when 5000 clients are active with the application, the response time will be around 10 seconds. Which is not an acceptable response time. But nevertheless on a ``small'' the server performs average.
 
 \section{Discussion}
 Future research:
 small screenshots with map
 a lot of data
+jsonp
+requests izid omslachtig
+wallclock time berekenen aan de hand van timesteps.
+As discussed in section \ref{sec:suffice} where the issue of if Sencha Touch suffices the cross-platform demand, it does not animation performance wise. But it does in functionality. More research has to be done to solve this animation issue. It well could be that the Mobile Browsers are not all the same and do not fully support the today's standards of HTML5 and CSS3. At this moment a future project can be at best natively programmed in performance is an issue. In this case the performance of the application on Android does the job and the performance is just more a convenience than a necessity. 
+
+When the list of the individual simulations is loaded, the list items the image of the last simulation step in the image container of the list item. This is an image only of the water. In the future this could be processed at server side and a screenshot of the simulation with the map could be available as a callback by the API.
 

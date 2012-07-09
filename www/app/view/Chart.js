@@ -14,7 +14,7 @@ Ext.define('app.view.Chart', {
             theme: 'Base',
             animate: true,
             id: 'flood-chart-id',
-            store: 'chartStore',
+            store: ',',
             left: 20,
             width: 490,
             height: 400,
@@ -63,23 +63,6 @@ Ext.define('app.view.Chart', {
             top: 0,
             iconCls: 'delete',
             iconMask: true,
-            //style: 'background: url(resources/images/closebutton50.png) no-repeat; background-size: 30px; border: none',
         }],
-        // {
-        //     xtype: 'button',
-        //     ui: 'toggle',
-        //     top: 0,
-        //     right: 0,
-        //     text: 'drag'
-        // },
-        // {
-        //     xtype: 'button',
-        //     id: 'expand-button',
-        //     bottom: 0,
-        //     right: 0,
-        //     iconCls: 'expand',
-        //     iconMask: true,
-            
-        // }]
     }
 });
