@@ -1,6 +1,9 @@
-\begin {itemize}
+\frametitle {Test in Browser}
+\begin{itemize}
 \item Tool: Siege
-\item \url{sangkil.science.uva.nl}
+\item Server: \url{sangkil.science.uva.nl} (E5620 Xeon Duo @2.4 Ghz, 32 GB Ram)
+\item Bottle necks vermijden: \url{mangkus.science.uva.nl}
+\item Praktisch naast elkaar
 \item file met verschillende requests, random uitgevoerd
 \item Concurrente processen
 \item Herhalingen

@@ -34,9 +34,9 @@
 \item Burgers en Hulpdiensten
 \item Steeds Belangrijker
 \item Sensoren in dijk + Internet
-\item Hoogte Kaart
-\item Water Simulatie
 \item Voorlichting met multi-touch table
+\item Water Simulatie
+\item Hoogte Kaart
 \end{itemize}
 \column{2.0in}
 \begin{figure}
@@ -120,9 +120,8 @@
 		\end{itemize}
 \item Nadelen vooraf
 		\begin{itemize}
-				\item Verschilt veel met huidige persoonlijke kennis webtechnologiën
-				\item Highlevel specificatie
-				\item Mogelijk onvoorziene problemen
+				\item Verschilde veel met persoonlijke kennis van webtalen
+				\item Mogelijk onvoorziene problemen m.b.t. performance
 		\end{itemize}
 \end{itemize}
 \end{frame}
@@ -136,7 +135,7 @@
 \item Download sencha touch + SDK Tools (command line tool)
 \item Start met leeg project: \\ \texttt{\$ sencha generate app my\_app}
 \item Layouts bieden layout
-\item Flex 1, 2
+\item layout: hbox / vbox, Flex 1, 2
 \item List Objecten
 \item Map Object
 \end{itemize}
@@ -218,7 +217,9 @@
 \frametitle{Test in Browser}
 \begin{itemize}
 \item Tool: Siege
-\item \url{sangkil.science.uva.nl}
+\item Server: \url{sangkil.science.uva.nl} (E5620 Xeon Duo @2.4 Ghz, 32 GB Ram)
+\item Bottle necks vermijden: \url{mangkus.science.uva.nl}
+\item Praktisch naast elkaar
 \item file met verschillende requests, random uitgevoerd
 \item Concurrente processen
 \item Herhalingen

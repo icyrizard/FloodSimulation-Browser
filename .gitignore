@@ -4,3 +4,9 @@ www/sencha-touch-2.0.0-commercial/*
 *.log
 *.gz
 *.aux
+www/build/*
+www/resources/sass/.sass-cache/*
+*.pdf
+*.bbl
+*.out
+*.blg

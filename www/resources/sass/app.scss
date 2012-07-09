@@ -1,15 +1,26 @@
+$base_color:#444444;
+$button-gradient: 'bevel';
+$toolbar-gradient: 'glossy';
+$tabs-light: #555;
+$active-color: #AA0000;
+
+ 
 @import 'sencha-touch/default/all';
 @include pictos-iconmask('close_overlay');
 @include pictos-iconmask('play1');
 @include pictos-iconmask('pause');
+@include pictos-iconmask('expand');
 @include pictos-iconmask('closebutton50');
 @include pictos-iconmask('clsbtn50');
+@include pictos-iconmask('shuffle');
+@include pictos-iconmask('help');
 @include pictos-iconmask('list');
 @include sencha-toolbar-ui('darker_blue', #003F69, 'glossy');
 @include sencha-toolbar-ui('lighter_blue', #00538F, 'glossy');
 @include sencha-button-ui('blue', #003F69, 'glossy');
 @include sencha-button-ui('red', #C40000, 'glossy');
 @include sencha-toolbar-ui('charcoal', #111111,'glossy');
+
 
 // You may remove any of the following modules that you
 // do not use in order to create a smaller css file.
@@ -28,11 +39,11 @@
 //@include sencha-msgbox;
 
 
-x-list-item {
+//x-list-item {
 	// needs latest Compass, add '@import "compass"' to your scss
-	@include filter-gradient(#000, #a60000, horizontal); // IE6-9
-	@include background-image(linear-gradient(left, rgba(0,0,0,0) 0%,rgba(132,2,2,0.77) 76%,rgba(5,0,0,1) 99%,rgba(0,0,0,0.65) 100%));
-}
+	//@include filter-gradient(#000, #a60000, horizontal); // IE6-9
+	//@include background-image(linear-gradient(left, rgba(0,0,0,0) 0%,rgba(132,2,2,0.77) 76%,rgba(5,0,0,1) 99%,rgba(0,0,0,0.65) 100%));
+//}
 
 .x-list {
 

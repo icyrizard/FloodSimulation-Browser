@@ -5,17 +5,17 @@ Ext.Loader.setPath({
 //</debug>
 
 Ext.application({
-    controllers: ["Lsm", "Main", "ChartController"],
+    controllers: ["Main", "ChartController"],
     models: ["SimulationModel", "SimulationDetails"],
-    stores: ['SimulationStore', 'SimulationDetailsStore', 'SimulationsSummary', 'LsmStore'],    
+    stores: ['SimulationStore', 'FloodDetailStore', 'SimulationsSummary', 'LsmStore', 'chartStore'],    
 
     name: 'app',
 
     requires: [
-        'Ext.MessageBox', 'app.CustomProxy'
+        'Ext.MessageBox',
     ],
 
-    views: ['Main', "Home", "Simulation", "List", 'Map', 'StepsOverlay', 'OptionsPanel', 
+    views: ['Main', "Simulation", "List", 'Map', 'StepsOverlay', 'OptionsPanel', 
             'SimulationList', 'LsmSimulationList', 'Chart'],
 
     icon: {

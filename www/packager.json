@@ -63,7 +63,7 @@
 	 *  - Android
 	 *  - AndroidEmulator
 	 */
-	"platform":"Android",
+	"platform":"iOS",
 
 	/**
 	 * @cfg {String} deviceType

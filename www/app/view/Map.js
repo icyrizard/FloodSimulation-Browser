@@ -8,8 +8,15 @@ Ext.define('app.view.Map', {
 
 		mapOptions : {
 			zoom : 12,
+			center: new google.maps.LatLng(52.354453, 4.95536),
 			mapTypeId : google.maps.MapTypeId.ROADMAP,
 			navigationControl: true,
+			scrollwheel: true,
+			scaleControl: true,
+			rotateControl: true,
+			panControl: true,
+			overviewMapControl: true,
+			zoomControl: true,
 			navigationControlOptions: {
 				style: google.maps.NavigationControlStyle.DEFAULT
 			}

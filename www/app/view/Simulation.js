@@ -13,7 +13,6 @@ Ext.define('app.view.Simulation', {
         },
         {
             xtype: 'SimulationMap',
-            flex: 2,
         }],
     }
 });
