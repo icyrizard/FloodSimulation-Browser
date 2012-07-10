@@ -1,4 +1,4 @@
-scriptie.tex: title.tex fsb.tex area_api.tex references.bbl
+scriptie.tex: title.tex fsb.tex area_api.tex lsm-api.tex drfsm-api.tex references.bbl
 
 %.pdf: %.tex
 	pdflatex $^

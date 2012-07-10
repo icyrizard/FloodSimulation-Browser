@@ -1,7 +1,6 @@
 Ext.define('app.Api', {
 	mixins: ['Ext.mixin.Observable'],
 	singleton: true,
-
 	getIzid: function(lat, lng, area_id) {
 		var me = this;
 		var requestName = Ext.Ajax.request({
