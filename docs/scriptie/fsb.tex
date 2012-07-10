@@ -10,7 +10,7 @@
 %\maketitle
 
 \section{Introduction}
-The UrbanFlood is a European project that aims to create an early warning system in European cities\cite{UrbanFlood}. In the today's changing climate, more and more cities have to deal with floods more often. \todo{Boek ref}. Due to extreme rainfall, rising water or long lasting drought, the instruments that protect the civilians of a certain area are negatively influenced. The project involves setting up a system that can make estimates on how dikes would behave in the near future. Vigilance against weak spots in the dykes is needed 24/7. To do this they placed sensors in dykes that can be monitored remotely via internet. But this not the only concern. They also developed a system that can create flood simulations of a certain area. This is used for testing dikes in a possible scenario but also for educative proposes. This subjec is discussed in the present document.
+The UrbanFlood is a European project that aims to create an early warning system in European cities\cite{UrbanFlood}. In the today's changing climate, more and more cities have to deal with floods more often. \todo{Boek ref}. Due to extreme rainfall, rising water or long lasting drought, the instruments that protect the civilians of a certain area are negatively influenced. The project involves setting up a system that can make estimates on how dikes would behave in the near future. Vigilance against weak spots in the dykes is needed 24/7. To do this they placed sensors in dykes that can be monitored remotely via internet. But this not the only concern. They also developed a system that can create flood simulations of a certain area. This is used for testing dikes in a possible scenario but also for educative proposes. This subject is discussed in the present document.
 
 This project concerns the Flood Simulation Browser. The concept of this browser is to illustrate/visualize a flood in a particular area. With this technology people can see the flow that the water will take. When a dike breaks it is important to know where the water will flow. Information about which locations in the area will be under water first can result in a successful evacuation plan. This system already exists, but is build for a multi-touch table only and is accessible by few people. The project that is the subject of this thesis, aims on making it easier available and accessible. The accessibility of the application (the tablet can be at night stand of the dijkgraaf) makes it more likely that someone with right authority can take better decisions about placing/reinforcing dikes or creating evacuation plans. Moreover, if this system is more accessible, then civilians of a certain neighbourhood that is threatened by water, have the ability to gain knowledge of where the water will go first. They then are able to take the the right crucial decisions based on this knowledge in the hour of need.
 
@@ -48,6 +48,7 @@ This solution is Titanium Mobile, the Appcelerator \cite{Titanium-Appcelerator}.
 Moreover developing and testing on iOS provides expected behaviour and a large part of native elements are supported. For Android the native elements are mostly \textbf{not} the elements you thought they would look like. To reach cross-platform apps, the developer needs to constantly keep track if they're building an element for iOS or for Android. It might be stated that the functionalities of different platforms are not evenly supported. iOS is by far the most supported platform. This only provides an advantage if the project only meant to run on iOS. The idea of Titanium Mobile is great, it works fine but will delay developing time when you truly want to reach crossplatform. Also the fact that this application needs a map that supports overlays for the simulation images is a big disadvantage. By searching trough the documentation \footnote{\url{http://docs.appcelerator.com/titanium/2.1/index.html\#!/api/Titanium.Map}}, the only thing it supports is adding an annotation. An annotation is just a marker placed on the map with the ability to get de latitude and longitude of the marker. To sum up, Titanium lacks support for both platform and map object, at the same time it can surprise the developer in an unpleasant way by taking a lot storage and a buggy garbage collection.
 
 Building crossplatform and creating native elements could mean a risk for completing the application. A browser is the only thing that has the most equality on both devices, i.e. both Android's and iOS's native browsers are based on the webkit engine\cite{webkit}. Webkit is an open source web engine that is used by both Safari and Chrome.
+
 \subsubsection*{Javascipt frameworks}
 As already explained, PhoneGap only provides the possibility to create an app out of a website. This website can be built in any way the developer likes, using web technologies supported on the native device. There are frameworks that can speed up the development to make an intuitive application. Two frameworks that are considered are: jQuery Mobile \cite{jQuery-Mobile} and  Sencha Touch \cite{sencha}. 
 \begin{description}
@@ -108,12 +109,16 @@ Ext.application({
 Requirement analysis for this project is an inventory making of tasks that the application has to be able to perform. I.e., the requirements on the application, as opposed to the requirements that the application needs to run. These requirements are as follows. First, the users need to be able to see different simulations and be able to distinguish where certain simulations are located. By starting with displaying the locations that are available would be the starting point where the users can start interacting with the application. For displaying the locations, a request to server is needed to for displaying those.
 \begin{description}
 \item \textbf{List}
-The locations are mostly named by cities. The corresponding simulations have to be retrieved from the server and displayed in a list. Those list-items are the individual simulations, so it makes sense that when tapping on a list item, the simulation of the related item is going to be displayed. The form of these simulations are important. The simulations are in the form of images. These images are images from above and can be placed on the map. In order to display these images, there has to be a map available. Next, the data of where to place the image is needed for creating a map. This data is located in the simulation data of the city. In part two of this document the exact implementation can be found.
+The locations are mostly named by cities. The corresponding simulations have to be retrieved from the server and displayed in a list. Those list-items are the individual simulations, so it makes sense that when tapping on a list item, the simulation of the related item is going to be displayed. 
 \item \textbf{Map}
+The form of these simulations are important. The simulations are in the form of images. These images are images from above and can be placed on the map. In order to display these images, there has to be a map available. This is the most important object of the application and has to be prominent place in the view.
 \item \textbf{Controls}
-The flood simulations are in the form of multiple imagery that is placed on the map. A requirement for these simulation images is that the user can control which image it wants to see in a chronological way, of course the user does not decide what the sequence is going to be. This requirement results in the need for controls. These controls need to be displayed somewhere in the viewport when the user has tapped on a list item of a simulation.
+As stated before, the flood simulations are in the form of multiple imagery that is\todo{are/is} placed on the map. A requirement for these simulation images is that the user can control which image it wants to see in a chronological way, of course the user does not decide what the sequence is going to be. To do this, the user would need controls. These controls need to be displayed somewhere in the viewport when the user has tapped on a list item of a simulation.
 \item \textbf{Chart}
-The flood simulations contain information about how much cubic meters of water is present in a certain timestep in a specific location. The simulations are divided in zones and labelled with an id. So a simulation contains information, this information needs to be displayed in such a way that it can be interpreted by the user. This would require a chart of some sort with the timesteps on the x-axis and some other value like volume on the y-axis. To determine the zone which contains the information, a latitude and longitude information is needed again. How this is done is described in part \ref{part:implementation} of this document.
+The flood simulations contain information about how much cubic meters of water is present in a certain timestep in a specific location. The simulations are divided in zones and labelled with an id. So a simulation contains information, this information needs to be displayed in such a way that it can be interpreted by the user. This would require a chart with the timesteps on the x-axis and another value like volume on the y-axis. To determine the zone which contains the information, latitude and longitude information is needed again. How this is done is described in part \ref{part:implementation} of this document.
+\item \textbf{Switch Simulation} 
+Not only are there flood simulations available, there also are population dynamics simulations. Therefore we need a simulation controls, or a button to switch from simulation type.
+
 \end{description}
 \subsection{App Design} 
 \label{sec:appdesign}
@@ -226,6 +231,7 @@ Is in sync with multiple urls, \url{http://sangkil.science.uva.nl:8003/area/<are
 \texttt{Fields: ['area\_id', 'test\_id', 'submitted']} \\
 This store holds information of the population dynamics, meaning how the evacuation of the individuals will proceed. 
 \item SimulationSummary.js \\
+\todo{fields}
 Syncs with \url{http://sangkil.science.uva.nl:8003/drfsm/list.json?summary}. This returns a json string that holds a list of all the simulations. A store can be filtered on a certain value. All the simulations have an area\_id specified. The store is filtered on the area\_id selected in List.js. Note that filters stay present, so before doing anything the store has to be cleared of all the filters.
 \item ChartStore.js \\
 This store is used for creating the chart. The chart expects a jsonStore with data and fields to plot. The data is retrieved from the server at run time of the application in \texttt{Api.js} and set in the store by the setData function.
@@ -375,6 +381,7 @@ Ext.define('app.view.Chart', {
 
 Because the chart can be fairly large, this component is also made draggable.
 \section{Scalability}
+\todo{server specs}
 The server \url{sangkil.science.uva.nl} is tested on scalability. An important part to notice when testing a server is how well it performs depending on the number of peers it is serving. By looking at how the response time will change if the number of clients increases, can tell how the rate of scalability. The number of clients a server can serve simultaneously is of course the number 1 issue in scalability. So how do the values change when connections, and therefore client numbers, start to rise.
 
 To test the server, all bottlenecks at client side have to be brought down to a minimum. \url{mangkus.science.uva.nl} is the address of another server with the same specifications. The mangkus server is situated in the same server rack as sangkil. The TCP/IP packages do not have to travel around the world in order to reach the destination, so the response time when not in a stress test could be in optimum state. 
@@ -472,8 +479,20 @@ small screenshots with map
 a lot of data
 jsonp
 requests izid omslachtig
+lsm weinig data, ook bij andere steden weinig te zien.
+weet nietwelke lsm data bij welke simulatie hoort.
+zelf simulaties toevoegen
 wallclock time berekenen aan de hand van timesteps.
-As discussed in section \ref{sec:suffice} where the issue of if Sencha Touch suffices the cross-platform demand, it does not animation performance wise. But it does in functionality. More research has to be done to solve this animation issue. It well could be that the Mobile Browsers are not all the same and do not fully support the today's standards of HTML5 and CSS3. At this moment a future project can be at best natively programmed in performance is an issue. In this case the performance of the application on Android does the job and the performance is just more a convenience than a necessity. 
 
-When the list of the individual simulations is loaded, the list items the image of the last simulation step in the image container of the list item. This is an image only of the water. In the future this could be processed at server side and a screenshot of the simulation with the map could be available as a callback by the API.
+In section \ref{sec:suffice} the issue ``if Sencha Touch suffices the cross-platform demand'' is discussed and the conclusion more or less was that it does the job wel but not animation/performance wise. More research has to be done to solve this animation issue to increase the use-ability of this application. It well could be that the Mobile Browsers are not all the same and do not fully support the today's standards of HTML5 and CSS3. At this moment a future project can be at best natively programmed if performance is an issue. In this case the performance of the application on Android does the job and the performance is just more a convenience than a necessity. 
+
+When the list of the individual simulations is loaded, the list items the image of the last simulation step in the image container of the list item. This is an image only of the water. In the future this can be processed at server side and a screenshot of the simulation \textbf{with} the map then would be available as a callback by the API. The application would look a lot better and the user can see where the simulation is done in the area. 
+
+An improvement of the application would be that the Lsm data(population dynamics) is seen together with the simulation. This is not possible at the moment, at client side and at servers side. Because of the fact that there is no way of telling which flood simulation corresponds to which lsm simulation. Nevertheless if this is possible, more knowledge about how a flood will influence the changes of survival in a certain area is valuable data. 
+
+The chart where the information about how much the cubic meters of water per time step flows in that area, only shows one graph at a time. It would be nice to select a multitude of places and see what the difference is between one area and another. This could be done by placing a marker for every tap event and by deleting a certain marker, that this removes that data from the chart. In Sencha Touch this is not so easy to do. Therefore there was no time left to accomplish this. But it would be a big extension of the application.
+
+
+
+
 
