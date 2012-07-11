@@ -86,7 +86,8 @@ Ext.define('app.controller.ChartController', {
 		columns = array[0];
 		volume = [];
 		time = [];
-		data = []
+		data = [];
+
 
 		for (i = 1; i < array.length; i++)
 		{
@@ -96,8 +97,9 @@ Ext.define('app.controller.ChartController', {
 				volume : parseInt(line_clmns[2]),
 			});
 		}
-
+		console.log(data);
 	 	store.setData(data);
+	 	console.log(store);
 	 	this.openChart();
 	},
 

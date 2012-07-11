@@ -14,7 +14,7 @@ Ext.define('app.view.Chart', {
             theme: 'Base',
             animate: true,
             id: 'flood-chart-id',
-            store: ',',
+            store: 'chartStore',
             left: 20,
             width: 490,
             height: 400,

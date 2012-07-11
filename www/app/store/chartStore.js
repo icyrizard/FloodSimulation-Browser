@@ -3,6 +3,6 @@ Ext.define('app.store.chartStore', {
 	extend: 'Ext.data.JsonStore',
 
 	config : {
-		fields: ['time', 'volume']
+		fields: ['time', 'volume'],
 	}
 });
