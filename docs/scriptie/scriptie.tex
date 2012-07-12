@@ -1,7 +1,8 @@
 \documentclass[a4paper, 11pt]{article}
 \usepackage[T1]{fontenc}
 \usepackage[utf8]{inputenc}
-\usepackage[margin=2.8cm, nohead]{geometry}
+%\usepackage{margins}
+\usepackage[bottom=2.8cm, nohead]{geometry}
 \usepackage{palatino, url, multicol}
 \usepackage{amssymb, graphicx, fancyhdr, latexsym, url, verbatim}
 \usepackage{algorithm, algorithmic}
@@ -27,7 +28,6 @@
 \newcommand{\projectName}{Bachelor Thesis - Flood Simulation Browser\xspace}
 % xspace only puts a space where we want one!
 
-\addtolength{\footskip}{-1000mm}
 \addtolength{\headheight}{-05mm}
 \addtolength{\headsep}{05mm}
 
@@ -52,7 +52,7 @@
 \newpage
 
 \begin{abstract}
-In this thesis we discuss the design and implementation of a cross platform application, designed specifically for tablets, that assists the UrbanFlood project in making simulated flood more accessible for viewing. This application for viewing simulated floods was already available on the multi-touch table, which is not easily transportable. To reach to goal of mobility, and to reach a larger audience, it is desirable to have a more portable instrument for viewing. As tablets have the same interaction features as the mult-touc table, they are the ultimate tool to achieve this goal. Sencha Touch 2 was found to be the best option at first, but a more in-depth study showed that it could live up to the expectations. A second objective of the present study is to test how many clients can be handled by the back end server at ones. Tests show that the response time goes up considerably with the number of users, which shows that there are also server side problems to be solved before widely applying the developed software.
+In this thesis we discuss the design and implementation of a cross platform application, designed specifically for tablets, that assists the UrbanFlood project in making simulated flood more accessible for viewing simulations. This application for viewing simulated floods was already available on a multi-touch table, which is not easily transportable. To reach to goal of mobility, and to reach a larger audience, it is desirable to have a more portable instrument. As tablets have the same interaction features as the multi-touch table, they are the ultimate tool to achieve this goal. Sencha Touch 2 was found to be the best option at first to build a cross-platform application, but a more in-depth study showed that it could not fully live up to the expectations. A second objective of the present study is to test how many clients can be handled by the back end server at ones. Tests show that the response time goes up considerably with the number of users, which shows that there are also server side problems to be solved before widely applying the developed software.
 \end{abstract}
 
 \input{fsb}

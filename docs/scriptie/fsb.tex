@@ -36,10 +36,10 @@ The first part of this document will describe the global information needed to a
 \part{Discovering the subject}
 \label{part:Discovering}
 \section{Flood Simulation System}
-Two systems are involved in creating the backbone and resource for the Flood Simulation Browser(F.S.B). One part is the system where the client application directly communicates to and where the API is stalled, specifically at \url{sangkil.science.uva.nl}. The API is used by the client applications to get the appropriate data. The other is used by API to create new simulations when a request at client side is made. The system at \texttt{sangkil} makes use of the "Common Information Space"(CIS)\cite{CIS}. This communication system is never used directly by the end user. New simulations are started via this communcation system, which is also more widely used in the Early Warning System to share information between different systems, e.g. monitoring data of the dikes and the alarm(Attention Level Manager). The systems are needed for retrieving data about a simulation and ultimately to display the simulations. The F.S.B. is a GUI\cite{GUI} that can display the simulations on a map. The simulations itself were made by the HR Wallingford's\cite{wallingford} simulation software and generated in the cloud\cite{cloud}. The simulations can then be retrieved from \url{sangkil.science.uva.nl}. 
+Two systems are involved in creating the backbone and resource for the Flood Simulation Browser(F.S.B). One part is the system where the client application directly communicates to and where the API is stalled, specifically at \url{sangkil.science.uva.nl}. The API is used by the client applications to get the appropriate data. The other is used by API to create new simulations when a request at client side is made. The system at \texttt{sangkil} makes use of the "Common Information Space"(CIS)\cite{CIS}. This communication system is never used directly by the end user. New simulations are started via this communcation system, which is also more widely used in the Early Warning System to share information between different systems, e.g. monitoring data of the dikes and the alarm(Attention Level Manager). The systems are needed for retrieving data about a simulation and ultimately to display the simulations. The F.S.B. is a GUI that can display the simulations on a map. The simulations itself were made by the HR Wallingford's\cite{wallingford} simulation software and generated in the cloud\cite{cloud}. The simulations can then be retrieved from \url{sangkil.science.uva.nl}. 
 
-The simulation programs of HR Wallingsford runs in the cloud. The cloud service are running on virtual windows machines that can start the simulation if the right parameters are provided. For instance, the location and how much water the user wants to. When a simulation is submitted and calculated, the simulation is stored. The flood simulation system performs a complex simulation. In the Netherlands the AHN(Actueel Hoogtebestand Nederland) \cite{AHN} data is used to do such a simulation. The AHN is a height map that holds detailed information about the height of an area. With this data the flow of the water can be calculated and turned in to images. These images are used by the client's application, this an important part the F.S.B. With calls(GET or POST) to the API at \url{sangkil}, it returns a set of simulations that are already present. The important thing to note is that the final simulations are images. These images are then ready to be displayed on a map, e.g. Google Maps. 
-Not only does the system have the capability to calculate the flow of water, but it also calculates the estimated route that people take. It can calculate how much people would survive a simulated flood, keeping in mind that this project is all about saving people, this is interesting information.
+The simulation programs of HR Wallingsford runs in the cloud. The cloud services are running on virtual Windows machines that can start the simulation if the right parameters are provided. For instance, the location and how much water the user wants to generate. The flood simulation system performs a complex simulation. In the Netherlands the AHN(Actueel Hoogtebestand Nederland) \cite{AHN} data is used to do such a simulation. The AHN is a height map that holds detailed information about the height of an area. With this data the flow of the water can be calculated and turned in to images. These images are used by the client's application, this an important part the F.S.B. With calls(GET or POST) to the API at \url{sangkil}, it returns a set of simulations that are present on the machine. The important thing to note is that the final simulations are images. These images are ready to be displayed on a map, e.g. Google Maps. 
+Not only does the system have the capability to calculate the flow of water, but it can also calculate the estimated route that people take when a flooding takes place. It can calculate how much people would survive a simulated flood, keeping in mind that this project is all about saving people, this is interesting information.
  
 \section{Flood Simulation App}
 \subsection{Platform considerations}
@@ -74,11 +74,11 @@ Creating two pages is quickly done, the downside of jQuery mobile is that in ord
 \item [Sencha Touch 2]
 Sencha touch 2 is a framework that is based on the Model View Controller design pattern \cite{MVC}. It encourages the developer to use this pattern. The way of developing really differs from jQuery mobile. Where jQuery mobile sets you free to do whatever you like, Sencha Touch constraints the developer using components that are available in Sencha Touch. The difference can be easily explained with an example.
 
-In the items array, see Listing \ref{lst:sencha}, the items in that array can be anything supported by Sencha Touch like lists, a tabview, a map, etcetera. 
+In the items array, see Listing \ref{lst:sencha}, the items in that array can be anything supported by Sencha Touch like lists, a tabview, a map, etcetera. The difference between jQuery and Sencha Touch is clearly noticable in the listings \ref{lst:jquery} and \ref{lst:sencha}.
 
 A real convenience of the Sencha Touch 2 framework, provides a command-line tool to build a starting environment. It creates files where the developer can start from. It is recommended to use this as a starting point. The advantage is an application that is structured out of the box with a design pattern that is a well known standard for these kind of applications(MVC). 
 
-Also, with Sencha Touch 2 there is no need for PhoneGap, unlike jQuery Mobile. Sencha Touch 2 provides the possibility to run the code on your simulator or native device with the command line tool. Testing for Android and iOS became much more simple, resulting in less developing time. Running PhoneGap for Android, needs Eclipse\cite{eclipse} to build, for iOS the developer needs to build in Xcode\cite{xcode}. When testing on both devices the developer needs to be able to test in both environments, and testing from the command-line is a lot easier than running both environments. 
+Also, with Sencha Touch 2 there is no need for PhoneGap. Sencha Touch 2 provides the functionality to run the code on your simulator or native device with the command line tool of sencha. Testing for Android and iOS became much more simple, resulting in less developing time. Running PhoneGap for Android, needs Eclipse\cite{eclipse} to build, for iOS the developer needs to build in Xcode\cite{xcode}. When testing on both devices the developer needs to be able to test in both environments, and testing from the command-line is a lot easier than running both environments. 
  
 A disadvantage of Sencha Touch could be, as seen in listing \ref{lst:sencha}, the syntax of Sencha Touch is not so easy at first. So the learning curve could be very steep.
 The last argument that has a great influence on deciding which framework to use, could be that Sencha Touch provides an add-on that has the capability to create multi-touch charts. The original implementation of the urban flood browser on the multi-touch table has this feature. It would be a great extension of the project if this was possible. So with an eye on the future it could save a lot trouble, and it could add up to a more intuitive design.
@@ -103,6 +103,25 @@ Ext.application({
 });
 \end{lstlisting}
 \end{description}
+
+\subsubsection{Overview frameworks}
+The following table is an overview of the previously discussed properties of tools; Titanium, jQuery Mobile in combination with Phonegap and Sencha Touch. \\
+
++ is positive, - is negative, -- strong negative, ++ strongly positive \\
+\begin{tabular}{|c|c|c|c|c|c|c|c|}
+\hline 
+   & cross & learn. curve & modular & docs & supported comp. & perform. & dev time \\ 
+\hline 
+Titanium & - & - & - & - & -- & - & + \\ 
+\hline 
+jQuery Mobile & + & -- & -- & + & - & - & ++ \\
+\hline 
+Sencha Touch 2 & + & - & + & + & + & - & + \\ 
+\hline 
+
+\end{tabular} 
+
+Sencha Touch 2 has the most positive signs based on the previous sections. Therefore the platform Sencha Touch is selected as the tool to implement the F.S.B.
 
 \subsection{Requirements Analysis}
 \label{sec:requirements}
@@ -160,8 +179,8 @@ Furthermore, it's an important feature to display data of a simulation in certai
 
 \subsection{Scalability}
 \label{sec:scalability}
-The second assignment of this thesis is to test the scalability of the server. The server address is \url{sangkil.science.uva.nl}. To test this server it is required to exclude any other parameter of the client. Such as maximum download speed, maximum throughput, latency of the network. The idea is not to test this at a home pc, but test it in a server that is hooked up in the same network as \url{sangkil.science.uva.nl}. More specifically, the connection between \url{mangkus.science.uva.nl}(hosted at the same location as sangkil) and \url{sangkil.science.uva.nl}. If this is the case the exclusion of restricted variables at client side could be possible. 
-For stress testing the server a tool called siege \cite{Siege} would be of assistance. With this tool it is possible to launch requests to a url with $n$-nodes and $k$-connections executed per second. Siege registers the following data:
+The second assignment of this thesis is to test the scalability of the server. The server address is \url{sangkil.science.uva.nl}. To test this server it is required to exclude any other parameter of the client. That way, the maximum values of the server are tested and not the limitations of the client. To get these values, the server \url{mangkus.science.uva.nl}, that is located in the same network as \url{sangkil.science.uva.nl}, is used for testing. The servers have the exact same specifications, so this is ideal for testing the maximum values of sangkil.science.uva.nl. Again, this is not a realistic test but it is meant to find the maximum values.
+For stress testing the server a tool called siege \cite{Siege} is used. With this tool it is possible to launch requests to a url with $n$-nodes and $k$-connections executed per second. Siege registers the following data:
 \begin{itemize}
 \item Transactions - total hits
 \item Availability - percentage of total succeeded hits
@@ -245,8 +264,9 @@ This store is used for creating the chart. The chart expects a jsonStore with da
 \end{itemize}
 
 \begin{figure}[H]
+\center
 \includegraphics[scale=0.5]{ui/citieslist.png}
-\caption{Cities List}
+\caption{A list of cities in the final application}
 \end{figure}
 
 
@@ -400,6 +420,12 @@ Ext.define('app.view.Chart', {
 
 The \emph{series} attribute in the Chart configuration means what kind of plots are going to displayed. So it is possible to create more series and display different types of data in the chart. Also because the chart can be fairly large, this component is also made draggable for the user to create more space.
 
+\begin{figure}[H]
+\center
+\includegraphics[scale=0.5]{ui/chart_full.png}
+\caption{The chart in the final application}
+\end{figure}
+
 \section{Scalability}
 The server \url{sangkil.science.uva.nl} is tested on scalability. The server specifications are two Intel(R) Xeon(R) CPU E5620  @ 2.40GHz processors, with both 4 cores and 8 threats and 23GiB of memory. An important part to notice when testing a server is how well it performs depending on the number of peers it is serving. By looking at how the response time will change if the number of clients increases, can tell how the rate of scalability. The number of clients a server can serve simultaneously is of course the number 1 issue in scalability. So how do the values change when connections, and therefore client numbers, start to rise.
 
@@ -517,7 +543,7 @@ In section \ref{sec:suffice} the issue ``if Sencha Touch suffices the cross-plat
 There are also a couple of things that could be improved in the application itself. For example, when the list of the individual simulations is loaded, the image of the last simulation step is put in the image container of that list item. This is an image only of the water, and is less informative than a sceenshot with the exact location with the overlay image. This can be processed at server side and a screenshot of the simulation \textbf{with} the map then would be available as a callback by the API. If the google maps API would support a to take screenshot with the an overlay it would also be solved, but unfortunately this is not the case. Either way, if this is implemented in the application it would look a lot better. Also, the user can see where the simulation is done a lot faster, what than results in more intuitiveness. 
 
 Another improvement of the application would be that the Lsm data(population dynamics) is seen together with the simulation. This is not possible at the moment, at client side and at servers side. Because of the fact that there is no way of telling which flood simulation corresponds to which lsm simulation. Nevertheless if this is possible, more knowledge about how a flood will influence the changes of survival in a certain area is valuable data. Also more information can be given via the chart. The current chart shows information about how much the cubic meters of water per time step flows in that area, it only shows one line at a time. It would be nice to select a multitude of places and see what the difference is between one area and another. This could be done by placing a marker for every tap event and by deleting a certain marker, that this removes that data from the chart. In Sencha Touch this is not so easy to do, because the Sencha API lacks in functionality to add and remove series on the fly. Therefore there was no time left to accomplish this. But it would be a big extension of the application. 
-A last point about the application's shortcoming is already shortly discussed. The map object can be replaced by another map, for example OpenStreetMaps. Maybe the performance is higher than the Google Maps, it is certainly cheaper. 
+A last point about the application's shortcoming is already shortly discussed. The map object can be replaced by another map, for example OpenStreetMaps. This results in a complete Open implementation of the application.
 
 The scalability test on \texttt{sangkil.science.uva.nl} is another point that can be improved. The test can be expanded if the concurrent processes are more than 500. The test was limited due to errors in the mangkus server, when the tool Siege had to create more than 500 concurrent clients. Nevertheless, it would be better to test the sangkil server with a lot more clients. At 500 processes the server begins to have issues with availability and response time. But what will happen when the number of clients raises to 5000? Would the server perform worse and worse, or will it perform be the same. The results of the tests suggests that the response time climbs linearly, the throughput has a limit of roughly 14MB/s, so transferring more and more data would not happen due to the bandwidth limit and the response time is estimated to grow more and more.
 
