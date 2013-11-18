@@ -1,6 +1,6 @@
 /**
 * Main controller object
-* 
+*
 *
 */
 Ext.define('app.controller.Main', {
@@ -34,7 +34,7 @@ Ext.define('app.controller.Main', {
                 autoCreate: true,
             },
 
-            simOptionsButton: { 
+            simOptionsButton: {
                 selector: '#simulationOptions',
                 autoCreate: true,
             },
@@ -121,7 +121,7 @@ Ext.define('app.controller.Main', {
     initiateCities: function() {
         this.getSimOptionsButton().show();
     },
-    
+
     /* first function to call */
     setMap: function(extmap, map) {
         this.globalMap = map;
@@ -187,24 +187,24 @@ Ext.define('app.controller.Main', {
         this.getPause().hide();
         this.getPlayBackw().show()
         this.getPauseBackw().hide();
-        
+
         /*clear interval, even if there wasn't any*/
         clearInterval(this.interval);
         this.getMapView().removeImages();
         this.getOverlay().hide();
     },
 
-    /* Initialize simulation, responds when tapped on a list item 
+    /* Initialize simulation, responds when tapped on a list item
      * of the simulation panel
      */
     simulate: function(list, index, element, record) {
         var me = this;
         /*first, remove all images, even if there werent any*/
-        this.getMapView().removeImages();       
+        this.getMapView().removeImages();
         /*create reference, cb looses scope of this.*/
         var map = this.getMapView(),
             /*The simulationDetailStore has the details of the get test_id*/
-            test_id = record.get('test_id'), 
+            test_id = record.get('test_id'),
             /*bounds variable used later on*/
             bounds;
 
@@ -235,11 +235,11 @@ Ext.define('app.controller.Main', {
          * steps available, crucial data for the displaying the images.
          */
         var url = '';
-        if (this.SimulType == 'Flood')
-        {
+        if (this.SimulType == 'Flood') {
             url = 'http://sangkil.science.uva.nl:8003/drfsm/'+ test_id +'/info.json';
+        } else {
+            url = 'http://sangkil.science.uva.nl:8003/lsm/'+ test_id +'/visualization/paru/info.json';
         }
-        else url = 'http://sangkil.science.uva.nl:8003/lsm/'+ test_id +'/visualization/paru/info.json';
         this.requestInfo(test_id, cb, url);
 
         /*show overlay*/
@@ -258,11 +258,11 @@ Ext.define('app.controller.Main', {
         /*store center*/
         var center = record.get('center');
         var area_id = record.get('area_id');
-        
+
         /* This is used because this function may only be
          *  executed onece. */
         var selected = false;
-        
+
         for (i in this.selectedIndex)
             if (this.selectedIndex[i] == index)
                 selected = true;
@@ -288,7 +288,7 @@ Ext.define('app.controller.Main', {
         }
         else if(this.SimulType == 'Lsm')
             this.getSidepanel().push(this.getLsmSimulation());
-        
+
 
         /*the store with details of the simulation*/
         var store = Ext.getStore('FloodDetailStore');
@@ -308,7 +308,7 @@ Ext.define('app.controller.Main', {
             store.each(function(r) {
                 dikes = r.get('dikes');
             });
-            
+
             if (dikes.length != 0)
                 this.getMapView().createOverlayPolygon(dikes);
             this.getMapView().createMarker(center);
@@ -328,12 +328,10 @@ Ext.define('app.controller.Main', {
         var me = this;
         var summary_store = Ext.getStore('SimulationsSummary');
 
-       // var mapImage ='http://maps.googleapis.com/maps/api/staticmap?center='+ center[0] +','+ center[1] + '&zoom=13&size=300x180&maptype=roadmap&sensor=false';
         summary_store.each(function(record){
             var test_id = record.get('test_id');
 
             var setImages = function(result){
-         //       document.getElementById(test_id + "_map").src = mapImage;//me.getMapView().getFloodImage(test_id, result['timesteps'][result['timesteps'].length - 1]); 
                 var image = me.getMapView().getFloodImage(test_id, result['timesteps'][result['timesteps'].length - 1]) || 'resources/images/noimage.png';
                 document.getElementById(test_id + "_flood").src = image;
             }
@@ -345,8 +343,8 @@ Ext.define('app.controller.Main', {
             var url = url || 'http://sangkil.science.uva.nl:8003/drfsm/'+ test_id +'/info.json';
             var request = Ext.Ajax.request({
                 method: 'GET',
-                url: url,//'http://sangkil.science.uva.nl:8003/drfsm/'+ test_id +'/info.json',
-    
+                url: url,
+
             success: function(response, opts){
                 var result = Ext.decode(response.responseText);
                 callback(result);
@@ -371,6 +369,6 @@ Ext.define('app.controller.Main', {
             this.SimulType = 'Lsm'
         else if (record.get('type') == 'Flood' && this.SimulType != 'Flood')
             this.SimulType = 'Flood'
-        this.getSimulationOptions().hide();  
+        this.getSimulationOptions().hide();
     },
 });

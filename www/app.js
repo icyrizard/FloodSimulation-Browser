@@ -1,13 +1,14 @@
-//<debug>
 Ext.Loader.setPath({
     'Ext': 'sdk/src'
 });
-//</debug>
+
+Ext.Loader.setConfig({enabled:true});
+
 
 Ext.application({
     controllers: ["Main", "ChartController"],
     models: ["SimulationModel", "SimulationDetails"],
-    stores: ['SimulationStore', 'FloodDetailStore', 'SimulationsSummary', 'LsmStore', 'chartStore'],    
+    stores: ['SimulationStore', 'FloodDetailStore', 'SimulationsSummary', 'LsmStore', 'chartStore'],
 
     name: 'app',
 
@@ -15,7 +16,7 @@ Ext.application({
         'Ext.MessageBox',
     ],
 
-    views: ['Main', "Simulation", "List", 'Map', 'StepsOverlay', 'OptionsPanel', 
+    views: ['Main', "Simulation", "List", 'Map', 'StepsOverlay', 'OptionsPanel',
             'SimulationList', 'LsmSimulationList', 'Chart'],
 
     icon: {
@@ -24,7 +25,7 @@ Ext.application({
         114: 'resources/icons/Icon@2x.png',
         144: 'resources/icons/Icon~ipad@2x.png'
     },
-    
+
     phoneStartupScreen: 'resources/loading/Homescreen.jpg',
     tabletStartupScreen: 'resources/loading/Homescreen~ipad.jpg',
 

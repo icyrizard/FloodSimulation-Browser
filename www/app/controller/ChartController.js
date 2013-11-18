@@ -75,7 +75,7 @@ Ext.define('app.controller.ChartController', {
 				console.log(event);
 				lat = event.latLng.lat();
 				lng = event.latLng.lng();
-				app.Api.getIzid(lat, lng, map.areaId);		
+				app.Api.getIzid(lat, lng, map.areaId);
 			}
 		});
 	},
@@ -97,9 +97,7 @@ Ext.define('app.controller.ChartController', {
 				volume : parseInt(line_clmns[2]),
 			});
 		}
-		console.log(data);
 	 	store.setData(data);
-	 	console.log(store);
 	 	this.openChart();
 	},
 
@@ -112,9 +110,9 @@ Ext.define('app.controller.ChartController', {
 		this.getFloodchart().hide();
 	},
 
-	expandChart: function(){
-		
-		
-	}
+    //TODO:
+	//expandChart: function(){
+
+	//}
 
 });

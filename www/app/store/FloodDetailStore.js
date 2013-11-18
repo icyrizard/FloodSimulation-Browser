@@ -18,7 +18,7 @@ Ext.define('app.store.FloodDetailStore', {
 
 		}
 	},
-	
+
 	setUrl: function(area_id) {
 		var store = Ext.getStore('FloodDetailStore').getProxy();
 		store._url = 'http://sangkil.science.uva.nl:8003/area/' + area_id + '/info.json';
